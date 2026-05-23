@@ -11,16 +11,6 @@
       "color": "#059669"
     },
     {
-      "id": 3,
-      "name": "وزارة التعليم السعودية",
-      "category": "مواقع تربوية",
-      "categoryKey": "websites",
-      "description": "الموقع الرسمي لوزارة التعليم السعودية، يحتوي على الأخبار التعليمية والخدمات الإلكترونية والمناهج الدراسية ونتائج الطلاب.",
-      "url": "https://www.moe.gov.sa",
-      "icon": "fas fa-landmark",
-      "color": "#1a73a7"
-    },
-    {
       "id": 4,
       "name": "مكتبة الكتب التعليمية PDF",
       "category": "كتب PDF",
@@ -39,26 +29,6 @@
       "url": "https://quizizz.com",
       "icon": "fas fa-question-circle",
       "color": "#7c3aed"
-    },
-    {
-      "id": 6,
-      "name": "مدرستي - المنصة الوطنية",
-      "category": "منصات تدريس",
-      "categoryKey": "platforms",
-      "description": "المنصة التعليمية الوطنية التي توفر الدروس والمحتوى التعليمي للطلاب في جميع المراحل مع متابعة مستمرة من المعلمين.",
-      "url": "https://my.moe.gov.sa",
-      "icon": "fas fa-school",
-      "color": "#059669"
-    },
-    {
-      "id": 7,
-      "name": "قناة دار الفرقان",
-      "category": "قنوات يوتيوب",
-      "categoryKey": "youtube",
-      "description": "قناة تعليمية متخصصة في العلوم والرياضيات تقدم شروحات واضحة ومبسطة للطلاب في المرحلة الثانوية والجامعية.",
-      "url": "https://www.youtube.com",
-      "icon": "fas fa-microscope",
-      "color": "#dc2626"
     },
     {
       "id": 8,
