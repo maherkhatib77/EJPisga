@@ -783,66 +783,31 @@
             return "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")";
         }
 
-        // ====== تحميل جميع البيانات ======
-        function loadAllData() {
-            // تحميل الموارد
-            var storedResources = localStorage.getItem("edu_resources");
-            if (storedResources) {
-                resources = JSON.parse(storedResources);
-            } else {
-                resources = defaultResources.slice();
-                localStorage.setItem("edu_resources", JSON.stringify(resources));
-            }
-
-            // تحميل الفئات
-            var storedCategories = localStorage.getItem("edu_categories");
-            if (storedCategories) {
-                categories = JSON.parse(storedCategories);
-            } else {
-                categories = defaultCategories.slice();
-                localStorage.setItem("edu_categories", JSON.stringify(categories));
-            }
-
-            // تحميل الإعدادات
-            var storedSettings = localStorage.getItem("edu_settings");
-            if (storedSettings) {
-                settings = JSON.parse(storedSettings);
-            } else {
-                settings = Object.assign({}, defaultSettings);
-                localStorage.setItem("edu_settings", JSON.stringify(settings));
-            }
-
-            // تحميل بيانات البطل
-            var storedHero = localStorage.getItem("edu_hero");
-            if (storedHero) {
-                hero = JSON.parse(storedHero);
-            } else {
-                hero = Object.assign({}, defaultHero);
-                localStorage.setItem("edu_hero", JSON.stringify(hero));
-            }
-
-            // هجرة البيانات القديمة: إضافة categoryKey و color للموارد القديمة
+        // ====== تحميل جميع البيانات من السيرفر ======
+        async function loadAllData() {
             try {
-                var migrated = false;
-                resources.forEach(function(r) {
-                    if (!r.categoryKey && r.colorClass) {
-                        r.categoryKey = r.colorClass;
-                        migrated = true;
-                    }
-                    if (!r.color) {
-                        var cat = categories.find(function(c) { return c.key === (r.categoryKey || r.colorClass); });
-                        r.color = cat ? cat.color : "#1a73a7";
-                        migrated = true;
-                    }
-                    if (!r.category && r.categoryKey) {
-                        var cat2 = categories.find(function(c) { return c.key === r.categoryKey; });
-                        if (cat2) { r.category = cat2.name; migrated = true; }
-                    }
-                });
-                if (migrated) {
-                    localStorage.setItem("edu_resources", JSON.stringify(resources));
+                var response = await fetch('/api/site-data');
+                var result = await response.json();
+                if (result.success && result.data) {
+                    resources = result.data.resources || defaultResources.slice();
+                    categories = result.data.categories || defaultCategories.slice();
+                    settings = result.data.settings || Object.assign({}, defaultSettings);
+                    hero = result.data.hero || Object.assign({}, defaultHero);
+                } else {
+                    fallbackToDefaults();
                 }
-            } catch(e) {}
+            } catch (e) {
+                console.warn('فشل تحميل البيانات من السيرفر، استخدام البيانات الافتراضية:', e);
+                fallbackToDefaults();
+            }
+        }
+
+        // بيانات احتياطية في حالة فشل الاتصال بالسيرفر
+        function fallbackToDefaults() {
+            resources = defaultResources.slice();
+            categories = defaultCategories.slice();
+            settings = Object.assign({}, defaultSettings);
+            hero = Object.assign({}, defaultHero);
         }
 
         // ====== عرض الرأس (يدعم الصورة والإيموجي) ======
@@ -1034,17 +999,25 @@
             }, 3000);
         }
 
-        // ====== الاستماع لتغييرات localStorage ======
+        // ====== الاستماع لتحديثات البيانات من لوحة الإدارة ======
         window.addEventListener("storage", function(e) {
-            if (e.key === "edu_resources" || e.key === "edu_categories" || e.key === "edu_settings" || e.key === "edu_hero") {
-                loadAllData();
-                renderAll();
+            if (e.key === "edu_data_updated") {
+                loadAllData().then(function() { renderAll(); });
             }
         });
 
+        // فحص دوري كل 3 ثوان (للتزامن بين التبويبات)
+        var lastDataTimestamp = "";
+        setInterval(function() {
+            var ts = localStorage.getItem("edu_data_updated") || "";
+            if (ts && ts !== lastDataTimestamp) {
+                lastDataTimestamp = ts;
+                loadAllData().then(function() { renderAll(); });
+            }
+        }, 3000);
+
         // ====== تهيئة التطبيق ======
-        loadAllData();
-        renderAll();
+        loadAllData().then(function() { renderAll(); });
     </script>
 </body>
 </html>

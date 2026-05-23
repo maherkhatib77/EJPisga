@@ -1961,87 +1961,93 @@
             }
         }
 
-        // ====== تهيئة البيانات ======
-        function initializeData() {
-            if (!localStorage.getItem("edu_categories")) {
-                localStorage.setItem("edu_categories", JSON.stringify(defaultCategories));
-            }
-            if (!localStorage.getItem("edu_settings")) {
-                localStorage.setItem("edu_settings", JSON.stringify(defaultSettings));
-            }
-            if (!localStorage.getItem("edu_hero")) {
-                localStorage.setItem("edu_hero", JSON.stringify(defaultHero));
-            }
-            if (!localStorage.getItem("edu_resources")) {
-                localStorage.setItem("edu_resources", JSON.stringify(defaultResources));
-            }
-            // هجرة البيانات القديمة
-            try {
-                var existingRes = JSON.parse(localStorage.getItem("edu_resources") || "[]");
-                var existingCats = JSON.parse(localStorage.getItem("edu_categories") || "[]");
-                var migrated = false;
-                existingRes.forEach(function(r) {
-                    if (!r.categoryKey && r.colorClass) {
-                        r.categoryKey = r.colorClass;
-                        migrated = true;
-                    }
-                    if (!r.color) {
-                        var cat = existingCats.find(function(c) { return c.key === (r.categoryKey || r.colorClass); });
-                        r.color = cat ? cat.color : "#1a73a7";
-                        migrated = true;
-                    }
-                    if (!r.category && r.categoryKey) {
-                        var cat2 = existingCats.find(function(c) { return c.key === r.categoryKey; });
-                        if (cat2) { r.category = cat2.name; migrated = true; }
-                    }
-                });
-                if (migrated) {
-                    localStorage.setItem("edu_resources", JSON.stringify(existingRes));
-                }
-            } catch(e) {}
+        // ====== إشعار الصفحة الرئيسية بتحديث البيانات ======
+        function notifyIndexPage() {
+            var ts = new Date().getTime().toString();
+            localStorage.setItem("edu_data_updated", ts);
         }
 
-        // ====== تحميل البيانات ======
+        // ====== تحميل جميع البيانات من السيرفر ======
+        async function loadAllFromServer() {
+            try {
+                var response = await fetch('/api/site-data');
+                var result = await response.json();
+                if (result.success && result.data) {
+                    resources = result.data.resources || [];
+                    categories = result.data.categories || defaultCategories.slice();
+                    settings = result.data.settings || Object.assign({}, defaultSettings);
+                    hero = result.data.hero || Object.assign({}, defaultHero);
+                    return true;
+                }
+            } catch (e) {
+                console.warn('فشل تحميل البيانات من السيرفر:', e);
+            }
+            return false;
+        }
+
+        // ====== حفظ البيانات إلى السيرفر ======
+        async function saveToServer() {
+            try {
+                var response = await fetch('/api/site-data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        resources: resources,
+                        categories: categories,
+                        settings: settings,
+                        hero: hero
+                    })
+                });
+                var result = await response.json();
+                if (result.success) {
+                    notifyIndexPage();
+                    return true;
+                } else {
+                    showToast('فشل في حفظ البيانات على السيرفر', 'error');
+                    return false;
+                }
+            } catch (e) {
+                console.error('خطأ في حفظ البيانات:', e);
+                showToast('خطأ في الاتصال بالسيرفر', 'error');
+                return false;
+            }
+        }
+
+        // ====== تحميل البيانات (توافق مع الكود الموجود) ======
         function loadResources() {
-            const stored = localStorage.getItem("edu_resources");
-            resources = stored ? JSON.parse(stored) : [];
+            // البيانات محملة مسبقاً من السيرفر
         }
 
         function saveResources() {
-            localStorage.setItem("edu_resources", JSON.stringify(resources));
+            // سيتم الحفظ عبر saveToServer()
         }
 
         function loadCategories() {
-            const stored = localStorage.getItem("edu_categories");
-            categories = stored ? JSON.parse(stored) : [...defaultCategories];
+            // البيانات محملة مسبقاً من السيرفر
         }
 
         function saveCategories() {
-            localStorage.setItem("edu_categories", JSON.stringify(categories));
+            // سيتم الحفظ عبر saveToServer()
         }
 
         function loadSettings() {
-            const stored = localStorage.getItem("edu_settings");
-            settings = stored ? JSON.parse(stored) : { ...defaultSettings };
             return settings;
         }
 
         function saveSettings() {
-            localStorage.setItem("edu_settings", JSON.stringify(settings));
+            // سيتم الحفظ عبر saveToServer()
         }
 
         function loadHero() {
-            const stored = localStorage.getItem("edu_hero");
-            hero = stored ? JSON.parse(stored) : { ...defaultHero };
             return hero;
         }
 
         function saveHero() {
-            localStorage.setItem("edu_hero", JSON.stringify(hero));
+            // سيتم الحفظ عبر saveToServer()
         }
 
         // ====== تسجيل الدخول ======
-        function handleLogin(e) {
+        async function handleLogin(e) {
             e.preventDefault();
             const password = document.getElementById("passwordInput").value;
 
@@ -2049,7 +2055,7 @@
                 document.getElementById("loginScreen").style.display = "none";
                 document.getElementById("adminPanel").classList.add("active");
                 sessionStorage.setItem("edu_admin_logged", "true");
-                loadAndRender();
+                await loadAndRender();
                 showToast("تم تسجيل الدخول بنجاح", "success");
             } else {
                 const input = document.getElementById("passwordInput");
@@ -2089,11 +2095,8 @@
         }
 
         // ====== تحميل وعرض ======
-        function loadAndRender() {
-            loadResources();
-            loadCategories();
-            loadSettings();
-            loadHero();
+        async function loadAndRender() {
+            await loadAllFromServer();
             updateHeaderLogo();
             updateStats();
             populateCategoryDropdown();
@@ -2230,7 +2233,7 @@
         }
 
         // ====== حفظ المورد ======
-        function handleFormSubmit(e) {
+        async function handleFormSubmit(e) {
             e.preventDefault();
             const editId = document.getElementById("editId").value;
             const name = document.getElementById("resName").value.trim();
@@ -2274,6 +2277,11 @@
             }
 
             saveResources();
+            var saved = await saveToServer();
+            if (!saved) {
+                showToast("لم يتم حفظ المورد بنجاح", "error");
+                return;
+            }
             closeModal();
             updateStats();
             renderTable();
@@ -2292,10 +2300,11 @@
             document.getElementById("deleteModal").classList.add("active");
         }
 
-        function confirmDelete() {
+        async function confirmDelete() {
             if (deleteTargetId !== null) {
                 resources = resources.filter(r => r.id !== deleteTargetId);
-                saveResources();
+                var saved = await saveToServer();
+                if (!saved) return;
                 showToast("تم حذف المورد بنجاح", "success");
                 deleteTargetId = null;
                 closeDeleteModal();
@@ -2383,7 +2392,7 @@
         }
 
         // ====== حفظ الفئة ======
-        function handleCategoryFormSubmit(e) {
+        async function handleCategoryFormSubmit(e) {
             e.preventDefault();
             var editKey = document.getElementById("editCategoryKey").value;
             var name = document.getElementById("catName").value.trim();
@@ -2404,25 +2413,13 @@
                     categories[idx].color = selectedCatColor;
 
                     // تحديث الموارد المرتبطة
-                    if (editKey !== key) {
-                        resources.forEach(function(r) {
-                            if (r.categoryKey === editKey) {
-                                r.categoryKey = key;
-                                r.category = name;
-                                r.colorClass = key;
-                                r.color = selectedCatColor;
-                            }
-                        });
-                        saveResources();
-                    } else {
-                        resources.forEach(function(r) {
-                            if (r.categoryKey === key) {
-                                r.category = name;
-                                r.color = selectedCatColor;
-                            }
-                        });
-                        saveResources();
-                    }
+                    resources.forEach(function(r) {
+                        if (r.categoryKey === editKey) {
+                            r.categoryKey = key;
+                            r.category = name;
+                            r.color = selectedCatColor;
+                        }
+                    });
 
                     showToast("تم تحديث الفئة بنجاح", "success");
                     editingCategoryOriginalKey = null;
@@ -2443,7 +2440,8 @@
                 showToast("تمت إضافة الفئة بنجاح", "success");
             }
 
-            saveCategories();
+            var saved = await saveToServer();
+            if (!saved) return;
             closeCategoryModal();
             populateCategoryDropdown();
             renderCategories();
@@ -2467,10 +2465,11 @@
             document.getElementById("deleteCategoryModal").classList.add("active");
         }
 
-        function confirmDeleteCategory() {
+        async function confirmDeleteCategory() {
             if (deleteCategoryTargetKey !== null) {
                 categories = categories.filter(c => c.key !== deleteCategoryTargetKey);
-                saveCategories();
+                var saved = await saveToServer();
+                if (!saved) return;
                 showToast("تم حذف الفئة بنجاح", "success");
                 deleteCategoryTargetKey = null;
                 closeDeleteCategoryModal();
@@ -2524,7 +2523,7 @@
             updateFooterAboutCharCount();
         }
 
-        function saveAllSettings() {
+        async function saveAllSettings() {
             settings.siteName = document.getElementById("settingsSiteName").value.trim() || "دليلي";
             settings.siteLogo = selectedLogoIcon;
             settings.footerAbout = document.getElementById("footerAbout").value.trim();
@@ -2534,8 +2533,8 @@
             hero.title = document.getElementById("heroTitle").value.trim();
             hero.description = document.getElementById("heroDescription").value.trim();
 
-            saveSettings();
-            saveHero();
+            var saved = await saveToServer();
+            if (!saved) return;
             updateHeaderLogo();
             showToast("تم حفظ جميع الإعدادات بنجاح", "success");
         }
@@ -2580,9 +2579,6 @@
                 });
             }
         });
-
-        // ====== التهيئة ======
-        initializeData();
 
         // ====== التحقق من الجلسة ======
         if (sessionStorage.getItem("edu_admin_logged") === "true") {
