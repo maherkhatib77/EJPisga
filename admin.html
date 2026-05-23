@@ -1221,6 +1221,9 @@
                     <div class="admin-logo-text" id="headerLogoText">دليلي</div>
                 </a>
                 <div class="admin-header-actions">
+                    <span id="githubHeaderStatus" style="display:none; font-size: 0.78rem; padding: 0.3rem 0.7rem; border-radius: 50px; background: #f0fdf4; color: #166534; font-weight: 600;">
+                        <i class="fab fa-github"></i> GitHub ✓
+                    </span>
                     <button class="btn-outline" onclick="exportData()" title="تصدير البيانات كملف JSON">
                         <i class="fas fa-download"></i>
                         <span>تصدير</span>
@@ -1415,6 +1418,73 @@
                                 <label class="form-label" for="footerLine2">السطر الثاني</label>
                                 <input type="text" class="form-input" id="footerLine2" placeholder="السطر الثاني في التذييل">
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- قسم ربط GitHub - الحفظ المباشر -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <div class="section-icon" style="background: #f5f3ff;"><i class="fab fa-github"></i></div>
+                        <h3>ربط GitHub - الحفظ المباشر</h3>
+                    </div>
+                    <div class="settings-section-body">
+                        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem;">
+                            <p style="font-size: 0.92rem; color: #166534; font-weight: 600; margin-bottom: 0.4rem;">
+                                <i class="fas fa-info-circle"></i> لماذا أحتاج هذا؟
+                            </p>
+                            <p style="font-size: 0.88rem; color: #15803d; line-height: 1.7;">
+                                عند ربط GitHub، سيتم حفظ جميع البيانات تلقائياً في ملف <code style="background: #dcfce7; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82rem;">site-data.json</code> على مستودع GitHub مباشرة. هذا يعني أن البيانات لن تضيع أبداً عند تحديث الكود!
+                            </p>
+                        </div>
+
+                        <div class="settings-row">
+                            <div class="form-group">
+                                <label class="form-label" for="githubUsername">اسم المستخدم على GitHub *</label>
+                                <input type="text" class="form-input" id="githubUsername" placeholder="مثال: maherkhatib77" dir="ltr" style="text-align: left;">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="githubRepo">اسم المستودع *</label>
+                                <input type="text" class="form-input" id="githubRepo" placeholder="مثال: EJPisga" dir="ltr" style="text-align: left;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="githubToken">رمز الوصول الشخصي (Personal Access Token) *</label>
+                            <input type="password" class="form-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxx" dir="ltr" style="text-align: left;">
+                            <p style="font-size: 0.78rem; color: var(--text-light); margin-top: 0.4rem; line-height: 1.6;">
+                                <i class="fas fa-lock" style="color: var(--secondary);"></i>
+                                لإنشاء الرمز: اذهب إلى GitHub ← Settings ← Developer settings ← Personal access tokens → Generate new token<br>
+                                <strong>الصلاحيات المطلوبة:</strong> اختر <code style="background: #f1f5f9; padding: 0.1rem 0.3rem; border-radius: 3px;">Contents</code> (قراءة وكتابة) فقط.
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="githubFilePath">مسار ملف البيانات في المستودع</label>
+                            <input type="text" class="form-input" id="githubFilePath" value="data/site-data.json" dir="ltr" style="text-align: left;" placeholder="data/site-data.json">
+                            <p style="font-size: 0.78rem; color: var(--text-light); margin-top: 0.3rem;">
+                                <i class="fas fa-folder"></i> المسار الافتراضي: data/site-data.json
+                            </p>
+                        </div>
+
+                        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+                            <button class="btn-success" onclick="saveGitHubSettings()" id="btnSaveGitHub">
+                                <i class="fas fa-plug"></i>
+                                ربط GitHub وحفظ الإعدادات
+                            </button>
+                            <button class="btn-outline" onclick="testGitHubConnection()" id="btnTestGitHub">
+                                <i class="fas fa-wifi"></i>
+                                اختبار الاتصال
+                            </button>
+                            <span id="githubStatus" style="font-size: 0.88rem;"></span>
+                        </div>
+
+                        <div id="githubConnectionInfo" style="display: none; margin-top: 1rem; padding: 0.75rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px;">
+                            <p style="font-size: 0.88rem; color: #166534;">
+                                <i class="fas fa-check-circle"></i>
+                                <strong id="githubConnectedRepo"></strong> - متصل ✓<br>
+                                <span style="font-size: 0.8rem; color: #15803d;">يتم حفظ البيانات تلقائياً على GitHub</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -1976,6 +2046,155 @@
             localStorage.setItem("edu_data_updated", ts);
         }
 
+        // ====== GitHub API Integration ======
+        function getGitHubConfig() {
+            try {
+                var config = JSON.parse(localStorage.getItem('edu_github_config') || '{}');
+                if (config.username && config.repo && config.token) {
+                    return config;
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        function saveGitHubConfig(config) {
+            localStorage.setItem('edu_github_config', JSON.stringify(config));
+        }
+
+        function loadGitHubSettingsForm() {
+            var config = getGitHubConfig();
+            if (config) {
+                document.getElementById("githubUsername").value = config.username || '';
+                document.getElementById("githubRepo").value = config.repo || '';
+                document.getElementById("githubToken").value = config.token || '';
+                document.getElementById("githubFilePath").value = config.filePath || 'data/site-data.json';
+                document.getElementById("githubConnectionInfo").style.display = "block";
+                document.getElementById("githubConnectedRepo").textContent = config.username + '/' + config.repo;
+            }
+        }
+
+        async function saveGitHubSettings() {
+            var username = document.getElementById("githubUsername").value.trim();
+            var repo = document.getElementById("githubRepo").value.trim();
+            var token = document.getElementById("githubToken").value.trim();
+            var filePath = document.getElementById("githubFilePath").value.trim() || 'data/site-data.json';
+
+            if (!username || !repo || !token) {
+                showToast("يرجى ملء جميع حقول GitHub المطلوبة", "error");
+                return;
+            }
+
+            var config = { username: username, repo: repo, token: token, filePath: filePath };
+            saveGitHubConfig(config);
+
+            // Test the connection
+            var testResult = await testGitHubConnectionSilent(config);
+            if (testResult) {
+                showToast("تم ربط GitHub بنجاح! البيانات ستُحفظ تلقائياً ✓", "success");
+                document.getElementById("githubConnectionInfo").style.display = "block";
+                document.getElementById("githubConnectedRepo").textContent = username + '/' + repo;
+            } else {
+                showToast("تم حفظ الإعدادات لكن فشل اختبار الاتصال - تحقق من البيانات", "error");
+            }
+        }
+
+        async function testGitHubConnection() {
+            var username = document.getElementById("githubUsername").value.trim();
+            var repo = document.getElementById("githubRepo").value.trim();
+            var token = document.getElementById("githubToken").value.trim();
+            var filePath = document.getElementById("githubFilePath").value.trim() || 'data/site-data.json';
+
+            if (!username || !repo || !token) {
+                showToast("يرجى ملء جميع حقول GitHub المطلوبة أولاً", "error");
+                return;
+            }
+
+            var statusEl = document.getElementById("githubStatus");
+            statusEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري اختبار الاتصال...';
+
+            var config = { username: username, repo: repo, token: token, filePath: filePath };
+            var success = await testGitHubConnectionSilent(config);
+
+            if (success) {
+                statusEl.innerHTML = '<span style="color: var(--secondary); font-weight: 600;"><i class="fas fa-check-circle"></i> الاتصال ناجح!</span>';
+            } else {
+                statusEl.innerHTML = '<span style="color: var(--danger); font-weight: 600;"><i class="fas fa-times-circle"></i> فشل الاتصال - تحقق من البيانات</span>';
+            }
+        }
+
+        async function testGitHubConnectionSilent(config) {
+            try {
+                var url = 'https://api.github.com/repos/' + config.username + '/' + config.repo + '/contents/' + config.filePath;
+                var response = await fetch(url, {
+                    headers: {
+                        'Authorization': 'Bearer ' + config.token,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                return response.ok;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        async function saveToGitHub(data) {
+            var config = getGitHubConfig();
+            if (!config) return false;
+
+            var url = 'https://api.github.com/repos/' + config.username + '/' + config.repo + '/contents/' + config.filePath;
+            var content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+
+            try {
+                // Check if file exists to get its SHA
+                var sha = null;
+                try {
+                    var checkResponse = await fetch(url, {
+                        headers: {
+                            'Authorization': 'Bearer ' + config.token,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    if (checkResponse.ok) {
+                        var checkData = await checkResponse.json();
+                        sha = checkData.sha;
+                    }
+                } catch (e) {
+                    // File doesn't exist yet - will create it
+                }
+
+                // Create or update the file
+                var body = {
+                    message: 'تحديث بيانات الموقع - ' + new Date().toLocaleString('ar-SA'),
+                    content: content
+                };
+                if (sha) {
+                    body.sha = sha;
+                }
+
+                var response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'Bearer ' + config.token,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+
+                if (response.ok) {
+                    console.log('تم الحفظ على GitHub بنجاح');
+                    return true;
+                } else {
+                    var errorData = await response.json().catch(function() { return {}; });
+                    console.error('خطأ GitHub API:', response.status, errorData.message || '');
+                    return false;
+                }
+            } catch (e) {
+                console.error('خطأ في الحفظ على GitHub:', e);
+                return false;
+            }
+        }
+
         // ====== تحميل جميع البيانات من السيرفر ======
         async function loadAllFromServer() {
             // Try 1: API server
@@ -2046,6 +2265,24 @@
             // Always save to localStorage as backup
             localStorage.setItem('edu_site_data', JSON.stringify(allData));
 
+            // Try 1: Save to GitHub (if configured)
+            var githubConfig = getGitHubConfig();
+            if (githubConfig) {
+                try {
+                    var githubSaved = await saveToGitHub(allData);
+                    if (githubSaved) {
+                        notifyIndexPage();
+                        showToast('تم الحفظ على GitHub بنجاح ✓', 'success');
+                        return true;
+                    } else {
+                        console.warn('فشل الحفظ على GitHub، جاري المحاولة البديلة...');
+                    }
+                } catch (e) {
+                    console.warn('خطأ في الحفظ على GitHub:', e);
+                }
+            }
+
+            // Try 2: API server
             try {
                 var response = await fetch('/api/site-data', {
                     method: 'POST',
@@ -2057,15 +2294,18 @@
                     notifyIndexPage();
                     showToast('تم الحفظ بنجاح', 'success');
                     return true;
-                } else {
-                    showToast('تم الحفظ محلياً فقط (استخدم التصدير للحفظ الدائم)', 'error');
-                    return false;
                 }
             } catch (e) {
-                console.error('خطأ في حفظ البيانات:', e);
-                showToast('تم الحفظ محلياً - قم بتصدير البيانات للحفظ الدائم', 'error');
-                return false;
+                console.warn('فشل الحفظ على السيرفر المحلي:', e);
             }
+
+            // Final fallback: localStorage only
+            if (githubConfig) {
+                showToast('⚠️ تم الحفظ محلياً فقط - فشل الاتصال بـ GitHub', 'error');
+            } else {
+                showToast('تم الحفظ محلياً - لربط GitHub اذهب إلى إعدادات الموقع', 'error');
+            }
+            return false;
         }
 
         // ====== تحميل البيانات (توافق مع الكود الموجود) ======
@@ -2157,6 +2397,11 @@
             populateCategoryDropdown();
             renderTable();
             renderCategories();
+
+            // Show GitHub connection status in header
+            if (getGitHubConfig()) {
+                document.getElementById("githubHeaderStatus").style.display = "inline-flex";
+            }
         }
 
         // ====== تحديث شعار الرأس ======
@@ -2189,7 +2434,7 @@
             categories.forEach(cat => {
                 const opt = document.createElement("option");
                 opt.value = cat.key;
-                opt.textContent = renderIcon(cat.icon) + " " + cat.name;
+                opt.innerHTML = cat.name;
                 select.appendChild(opt);
             });
             if (currentValue) select.value = currentValue;
@@ -2576,6 +2821,9 @@
             document.getElementById("footerLine1").value = s.footerLine1 || "";
             document.getElementById("footerLine2").value = s.footerLine2 || "";
             updateFooterAboutCharCount();
+
+            // Load GitHub settings
+            loadGitHubSettingsForm();
         }
 
         async function saveAllSettings() {
