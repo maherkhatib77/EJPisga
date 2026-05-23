@@ -1221,13 +1221,22 @@
                     <div class="admin-logo-text" id="headerLogoText">دليلي</div>
                 </a>
                 <div class="admin-header-actions">
+                    <button class="btn-outline" onclick="exportData()" title="تصدير البيانات كملف JSON">
+                        <i class="fas fa-download"></i>
+                        <span>تصدير</span>
+                    </button>
+                    <label class="btn-outline" style="cursor: pointer;" title="استيراد البيانات من ملف JSON">
+                        <i class="fas fa-upload"></i>
+                        <span>استيراد</span>
+                        <input type="file" accept=".json" style="display:none" onchange="importData(event)">
+                    </label>
                     <a href="index.html" class="btn-outline">
                         <i class="fas fa-home"></i>
-                        الصفحة الرئيسية
+                        <span>الصفحة الرئيسية</span>
                     </a>
                     <button class="btn-danger-outline" onclick="handleLogout()">
                         <i class="fas fa-sign-out-alt"></i>
-                        خروج
+                        <span>خروج</span>
                     </button>
                 </div>
             </div>
@@ -1969,6 +1978,7 @@
 
         // ====== تحميل جميع البيانات من السيرفر ======
         async function loadAllFromServer() {
+            // Try 1: API server
             try {
                 var response = await fetch('/api/site-data');
                 var result = await response.json();
@@ -1982,33 +1992,78 @@
             } catch (e) {
                 console.warn('فشل تحميل البيانات من السيرفر:', e);
             }
-            return false;
+
+            // Try 2: Direct JSON file (GitHub Pages)
+            try {
+                var response2 = await fetch('data/site-data.json');
+                var data = await response2.json();
+                if (data && data.resources) {
+                    resources = data.resources || [];
+                    categories = data.categories || defaultCategories.slice();
+                    settings = data.settings || Object.assign({}, defaultSettings);
+                    hero = data.hero || Object.assign({}, defaultHero);
+                    return true;
+                }
+            } catch (e2) {
+                console.warn('فشل تحميل البيانات من الملف:', e2);
+            }
+
+            // Try 3: localStorage backup
+            try {
+                var saved = localStorage.getItem('edu_site_data');
+                if (saved) {
+                    var parsed = JSON.parse(saved);
+                    if (parsed && parsed.resources) {
+                        resources = parsed.resources || [];
+                        categories = parsed.categories || defaultCategories.slice();
+                        settings = parsed.settings || Object.assign({}, defaultSettings);
+                        hero = parsed.hero || Object.assign({}, defaultHero);
+                        showToast('تم تحميل البيانات من النسخة المحلية المحفوظة', 'success');
+                        return true;
+                    }
+                }
+            } catch (e3) {
+                console.warn('فشل تحميل البيانات من التخزين المحلي:', e3);
+            }
+
+            // Final: use defaults
+            resources = defaultResources.slice();
+            categories = defaultCategories.slice();
+            settings = Object.assign({}, defaultSettings);
+            hero = Object.assign({}, defaultHero);
+            return true;
         }
 
         // ====== حفظ البيانات إلى السيرفر ======
         async function saveToServer() {
+            var allData = {
+                resources: resources,
+                categories: categories,
+                settings: settings,
+                hero: hero
+            };
+
+            // Always save to localStorage as backup
+            localStorage.setItem('edu_site_data', JSON.stringify(allData));
+
             try {
                 var response = await fetch('/api/site-data', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        resources: resources,
-                        categories: categories,
-                        settings: settings,
-                        hero: hero
-                    })
+                    body: JSON.stringify(allData)
                 });
                 var result = await response.json();
                 if (result.success) {
                     notifyIndexPage();
+                    showToast('تم الحفظ بنجاح', 'success');
                     return true;
                 } else {
-                    showToast('فشل في حفظ البيانات على السيرفر', 'error');
+                    showToast('تم الحفظ محلياً فقط (استخدم التصدير للحفظ الدائم)', 'error');
                     return false;
                 }
             } catch (e) {
                 console.error('خطأ في حفظ البيانات:', e);
-                showToast('خطأ في الاتصال بالسيرفر', 'error');
+                showToast('تم الحفظ محلياً - قم بتصدير البيانات للحفظ الدائم', 'error');
                 return false;
             }
         }
@@ -2579,6 +2634,68 @@
                 });
             }
         });
+
+        // ====== تصدير البيانات ======
+        function exportData() {
+            var allData = {
+                resources: resources,
+                categories: categories,
+                settings: settings,
+                hero: hero
+            };
+            var dataStr = JSON.stringify(allData, null, 2);
+            var blob = new Blob([dataStr], { type: 'application/json' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'site-data.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('تم تصدير البيانات بنجاح - احفظ الملف في مجلد data', 'success');
+        }
+
+        // ====== استيراد البيانات ======
+        function importData(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            if (!file.name.endsWith('.json')) {
+                showToast('يرجى اختيار ملف JSON', 'error');
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    var importedData = JSON.parse(e.target.result);
+                    if (!importedData.resources || !importedData.categories) {
+                        showToast('ملف البيانات غير صالح', 'error');
+                        return;
+                    }
+                    resources = importedData.resources || [];
+                    categories = importedData.categories || [];
+                    settings = importedData.settings || Object.assign({}, defaultSettings);
+                    hero = importedData.hero || Object.assign({}, defaultHero);
+
+                    // Save to server and localStorage
+                    localStorage.setItem('edu_site_data', JSON.stringify(importedData));
+                    var saved = await saveToServer();
+
+                    // Re-render everything
+                    updateHeaderLogo();
+                    updateStats();
+                    populateCategoryDropdown();
+                    renderTable();
+                    renderCategories();
+                    showToast('تم استيراد البيانات بنجاح! (' + resources.length + ' مورد)', 'success');
+                } catch (err) {
+                    showToast('خطأ في قراءة الملف: ' + err.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+            // Reset file input
+            event.target.value = '';
+        }
 
         // ====== التحقق من الجلسة ======
         if (sessionStorage.getItem("edu_admin_logged") === "true") {

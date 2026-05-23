@@ -785,6 +785,7 @@
 
         // ====== تحميل جميع البيانات من السيرفر ======
         async function loadAllData() {
+            // Try 1: API server
             try {
                 var response = await fetch('/api/site-data');
                 var result = await response.json();
@@ -793,13 +794,46 @@
                     categories = result.data.categories || defaultCategories.slice();
                     settings = result.data.settings || Object.assign({}, defaultSettings);
                     hero = result.data.hero || Object.assign({}, defaultHero);
-                } else {
-                    fallbackToDefaults();
+                    return;
                 }
             } catch (e) {
-                console.warn('فشل تحميل البيانات من السيرفر، استخدام البيانات الافتراضية:', e);
-                fallbackToDefaults();
+                console.warn('فشل تحميل البيانات من السيرفر:', e);
             }
+
+            // Try 2: Direct JSON file (GitHub Pages)
+            try {
+                var response2 = await fetch('data/site-data.json');
+                var data = await response2.json();
+                if (data && data.resources) {
+                    resources = data.resources || defaultResources.slice();
+                    categories = data.categories || defaultCategories.slice();
+                    settings = data.settings || Object.assign({}, defaultSettings);
+                    hero = data.hero || Object.assign({}, defaultHero);
+                    return;
+                }
+            } catch (e2) {
+                console.warn('فشل تحميل البيانات من الملف:', e2);
+            }
+
+            // Try 3: localStorage
+            try {
+                var saved = localStorage.getItem('edu_site_data');
+                if (saved) {
+                    var parsed = JSON.parse(saved);
+                    if (parsed && parsed.resources) {
+                        resources = parsed.resources || defaultResources.slice();
+                        categories = parsed.categories || defaultCategories.slice();
+                        settings = parsed.settings || Object.assign({}, defaultSettings);
+                        hero = parsed.hero || Object.assign({}, defaultHero);
+                        return;
+                    }
+                }
+            } catch (e3) {
+                console.warn('فشل تحميل البيانات المحلية:', e3);
+            }
+
+            // Final fallback
+            fallbackToDefaults();
         }
 
         // بيانات احتياطية في حالة فشل الاتصال بالسيرفر
