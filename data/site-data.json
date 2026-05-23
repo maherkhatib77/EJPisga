@@ -39,6 +39,17 @@
       "url": "https://www.canva.com/education",
       "icon": "fas fa-palette",
       "color": "#7c3aed"
+    },
+    {
+      "id": 9,
+      "name": "المدرسة الافتراضية",
+      "category": "منصات تدريس",
+      "categoryKey": "platforms",
+      "url": "https://my.edu.gov.il/home",
+      "description": "المنصة الرسمية الموحَّدة لوزارة التربية والتعليم. تجمع كل بيئات التعلم والبرامج الداعمة (Classroom، Moodle، كامبوس IL) في مكان واحد. مجانية، سهلة، ومخصصة للطلاب والمعلمين. 🎓",
+      "icon": "fas fa-book",
+      "colorClass": "platforms",
+      "color": "#059669"
     }
   ],
   "categories": [
