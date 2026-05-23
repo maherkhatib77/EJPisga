@@ -2033,6 +2033,7 @@
         function loadHero() {
             const stored = localStorage.getItem("edu_hero");
             hero = stored ? JSON.parse(stored) : { ...defaultHero };
+            return hero;
         }
 
         function saveHero() {
