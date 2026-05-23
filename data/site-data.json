@@ -1,36 +1,4 @@
 {
-  "categories": [
-    {
-      "key": "websites",
-      "name": "مواقع تربوية",
-      "icon": "fas fa-globe",
-      "color": "#1a73a7"
-    },
-    {
-      "key": "youtube",
-      "name": "قنوات يوتيوب",
-      "icon": "fab fa-youtube",
-      "color": "#dc2626"
-    },
-    {
-      "key": "pdf",
-      "name": "كتب PDF",
-      "icon": "fas fa-file-pdf",
-      "color": "#ea580c"
-    },
-    {
-      "key": "platforms",
-      "name": "منصات تدريس",
-      "icon": "fas fa-graduation-cap",
-      "color": "#059669"
-    },
-    {
-      "key": "tools",
-      "name": "أدوات تعليمية",
-      "icon": "fas fa-tools",
-      "color": "#7c3aed"
-    }
-  ],
   "resources": [
     {
       "id": 1,
@@ -41,16 +9,6 @@
       "url": "https://www.edraak.org",
       "icon": "fas fa-graduation-cap",
       "color": "#059669"
-    },
-    {
-      "id": 2,
-      "name": "قناة تعليمية - كورسات",
-      "category": "قنوات يوتيوب",
-      "categoryKey": "youtube",
-      "description": "قناة يوتيوب تعليمية تقدم شروحات مبسطة في البرمجة والتصميم والتقنية باللغة العربية مع مشاريع تطبيقية حقيقية.",
-      "url": "https://www.youtube.com",
-      "icon": "fab fa-youtube",
-      "color": "#dc2626"
     },
     {
       "id": 3,
@@ -110,6 +68,38 @@
       "description": "أداة تصميم مجانية مخصصة للمعلمين والطلاب لإنشاء عروض تقديمية وملصقات تعليمية ونشاطات فصلية إبداعية.",
       "url": "https://www.canva.com/education",
       "icon": "fas fa-palette",
+      "color": "#7c3aed"
+    }
+  ],
+  "categories": [
+    {
+      "key": "websites",
+      "name": "مواقع تربوية",
+      "icon": "fas fa-globe",
+      "color": "#1a73a7"
+    },
+    {
+      "key": "youtube",
+      "name": "قنوات يوتيوب",
+      "icon": "fab fa-youtube",
+      "color": "#dc2626"
+    },
+    {
+      "key": "pdf",
+      "name": "كتب PDF",
+      "icon": "fas fa-file-pdf",
+      "color": "#ea580c"
+    },
+    {
+      "key": "platforms",
+      "name": "منصات تدريس",
+      "icon": "fas fa-graduation-cap",
+      "color": "#059669"
+    },
+    {
+      "key": "tools",
+      "name": "أدوات تعليمية",
+      "icon": "fas fa-tools",
       "color": "#7c3aed"
     }
   ],
