@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة الإدارة - دليلي</title>
     <link rel="stylesheet" href="css2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* ====== إعادة تعيين ====== */
         *, *::before, *::after {
@@ -231,6 +232,13 @@
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
+            overflow: hidden;
+        }
+
+        .admin-logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .admin-logo-text {
@@ -310,6 +318,68 @@
             background: var(--secondary-dark);
             transform: translateY(-1px);
             box-shadow: var(--shadow-md);
+        }
+
+        /* ====== تبويبات التنقل ====== */
+        .tab-nav-wrap {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-nav::-webkit-scrollbar {
+            height: 0;
+        }
+
+        .tab-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--white);
+            color: var(--text-medium);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         /* ====== المحتوى ====== */
@@ -396,7 +466,7 @@
         }
 
         /* جدول الموارد */
-        .resources-table-wrap {
+        .table-wrap {
             background: var(--white);
             border-radius: var(--radius-lg);
             border: 1px solid var(--border);
@@ -466,6 +536,13 @@
             justify-content: center;
             font-size: 1.1rem;
             flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .resource-icon-sm img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .category-badge-sm {
@@ -546,6 +623,141 @@
             font-size: 0.92rem;
         }
 
+        /* ====== شبكة الفئات ====== */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .category-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+
+        .category-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .category-card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .category-card-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .category-card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .category-card-info h4 {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.15rem;
+        }
+
+        .category-card-info .category-key {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-family: 'Roboto', monospace;
+            direction: ltr;
+            display: inline-block;
+        }
+
+        .category-card-info .category-count {
+            font-size: 0.78rem;
+            color: var(--text-medium);
+            margin-top: 0.2rem;
+        }
+
+        .category-card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            flex-shrink: 0;
+        }
+
+        .category-color-swatch {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            vertical-align: middle;
+            border: 2px solid rgba(0,0,0,0.1);
+        }
+
+        /* ====== إعدادات الموقع ====== */
+        .settings-section {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .settings-section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .settings-section-header h3 {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .settings-section-header .section-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .settings-section-body {
+            padding: 1.5rem;
+        }
+
+        .settings-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .char-count {
+            font-size: 0.78rem;
+            color: var(--text-light);
+            text-align: left;
+            direction: ltr;
+            margin-top: 0.3rem;
+        }
+
         /* ====== Modal (نافذة منبثقة) ====== */
         .modal-overlay {
             display: none;
@@ -591,6 +803,9 @@
             font-family: 'Cairo', 'Tajawal', sans-serif;
             font-size: 1.15rem;
             font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .modal-close {
@@ -628,37 +843,44 @@
             border-radius: 0 0 var(--radius-lg) var(--radius-lg);
         }
 
-        /* أيقونات الفئات في النموذج */
-        .icon-picker {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 0.5rem;
+        /* منتقي الألوان */
+        .color-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
             margin-top: 0.5rem;
         }
 
-        .icon-option {
-            width: 100%;
-            aspect-ratio: 1;
-            border: 2px solid var(--border);
-            border-radius: 10px;
+        .color-swatch {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.15);
+        }
+
+        .color-swatch.selected {
+            border-color: var(--text-dark);
+            box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.2);
+        }
+
+        .color-swatch.selected::after {
+            content: '✓';
+            position: absolute;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: var(--transition);
-            background: var(--white);
-        }
-
-        .icon-option:hover {
-            border-color: var(--primary);
-            background: var(--primary-light);
-        }
-
-        .icon-option.selected {
-            border-color: var(--primary);
-            background: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(26, 115, 167, 0.15);
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
 
         /* Select مخصص */
@@ -688,6 +910,155 @@
         textarea.form-input {
             resize: vertical;
             min-height: 90px;
+        }
+
+        textarea.form-input.large {
+            min-height: 150px;
+        }
+
+        /* ====== أيقونة محددة في النموذج ====== */
+        .selected-icon-display {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 1rem;
+            background: #f8fafc;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: 46px;
+        }
+
+        .selected-icon-display:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .selected-icon-display .current-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            background: var(--white);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .selected-icon-display .current-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .selected-icon-display .icon-label {
+            font-size: 0.88rem;
+            color: var(--text-medium);
+        }
+
+        .selected-icon-display .change-hint {
+            margin-right: auto;
+            font-size: 0.78rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ====== Icon Picker Modal ====== */
+        .icon-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.4rem;
+            max-height: 280px;
+            overflow-y: auto;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fafbfc;
+        }
+
+        .icon-picker-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .icon-picker-grid::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .icon-picker-item {
+            width: 100%;
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--white);
+            font-size: 1.1rem;
+            color: var(--text-medium);
+        }
+
+        .icon-picker-item:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .icon-picker-item.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(26, 115, 167, 0.15);
+            color: var(--primary);
+        }
+
+        .icon-picker-tab.active {
+            border-color: var(--primary) !important;
+            color: var(--primary) !important;
+            background: var(--primary-light) !important;
+        }
+
+        /* ====== Logo Upload ====== */
+        .logo-upload-area {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px dashed var(--border);
+        }
+
+        .logo-preview {
+            width: 70px;
+            height: 70px;
+            border-radius: 14px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 2px solid var(--border);
+        }
+
+        .logo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
         }
 
         /* ====== Toast ====== */
@@ -733,18 +1104,6 @@
             to { opacity: 0; }
         }
 
-        /* ====== ألوان ====== */
-        .cat-websites { background: var(--primary); color: var(--white); }
-        .cat-websites-light { background: var(--primary-light); color: var(--primary); }
-        .cat-youtube { background: #dc2626; color: var(--white); }
-        .cat-youtube-light { background: #fef2f2; color: #dc2626; }
-        .cat-pdf { background: #ea580c; color: var(--white); }
-        .cat-pdf-light { background: #fff7ed; color: #ea580c; }
-        .cat-platforms { background: var(--secondary); color: var(--white); }
-        .cat-platforms-light { background: var(--secondary-light); color: var(--secondary); }
-        .cat-tools { background: #7c3aed; color: var(--white); }
-        .cat-tools-light { background: #f5f3ff; color: #7c3aed; }
-
         /* ====== Responsive ====== */
         @media (max-width: 768px) {
             .admin-header { padding: 0 1rem; }
@@ -765,21 +1124,65 @@
             .toolbar { flex-direction: column; align-items: stretch; }
             .toolbar-search { max-width: 100%; }
 
-            .resources-table-wrap { overflow-x: auto; }
+            .table-wrap { overflow-x: auto; }
             .resources-table { min-width: 650px; }
 
             .modal { max-width: 100%; margin: 0.5rem; }
-            .icon-picker { grid-template-columns: repeat(5, 1fr); }
+            .icon-picker-grid { grid-template-columns: repeat(4, 1fr); }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-row {
+                grid-template-columns: 1fr;
+            }
+
+            .logo-upload-area {
+                flex-direction: column;
+                text-align: center;
+            }
         }
 
         @media (max-width: 480px) {
             .login-card { padding: 2rem 1.5rem; }
             .stats-grid { grid-template-columns: 1fr; }
+            .tab-nav { gap: 0.4rem; }
+            .tab-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
+            .icon-picker-grid { grid-template-columns: repeat(4, 1fr); }
         }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+        .settings-save-bar {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1.5rem;
+        }
+
+        .btn-save-settings {
+            padding: 0.7rem 2rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-save-settings:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
     </style>
 </head>
 <body>
@@ -787,7 +1190,7 @@
     <!-- ====== شاشة تسجيل الدخول ====== -->
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
-            <div class="login-icon">🔐</div>
+            <div class="login-icon"><i class="fas fa-lock"></i></div>
             <h1>لوحة إدارة دليلي</h1>
             <p>أدخل كلمة المرور للوصول إلى لوحة إدارة الموارد التعليمية</p>
             <form onsubmit="handleLogin(event)">
@@ -797,12 +1200,12 @@
                     <p class="error-text" id="loginError">كلمة المرور غير صحيحة، يرجى المحاولة مرة أخرى</p>
                 </div>
                 <button type="submit" class="btn btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    <i class="fas fa-sign-in-alt"></i>
                     تسجيل الدخول
                 </button>
             </form>
             <a href="index.html" class="btn-back">
-                → العودة إلى الصفحة الرئيسية
+                <i class="fas fa-arrow-right"></i> العودة إلى الصفحة الرئيسية
             </a>
         </div>
     </div>
@@ -814,86 +1217,217 @@
         <header class="admin-header">
             <div class="admin-header-inner">
                 <a href="index.html" class="admin-logo">
-                    <div class="admin-logo-icon">📚</div>
-                    <div class="admin-logo-text">دليلي</div>
+                    <div class="admin-logo-icon" id="headerLogoIcon">📚</div>
+                    <div class="admin-logo-text" id="headerLogoText">دليلي</div>
                 </a>
                 <div class="admin-header-actions">
                     <a href="index.html" class="btn-outline">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                        <i class="fas fa-home"></i>
                         الصفحة الرئيسية
                     </a>
                     <button class="btn-danger-outline" onclick="handleLogout()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        <i class="fas fa-sign-out-alt"></i>
                         خروج
                     </button>
                 </div>
             </div>
         </header>
 
-        <!-- المحتوى -->
+        <!-- تبويبات التنقل -->
+        <nav class="tab-nav-wrap">
+            <div class="tab-nav-inner">
+                <div class="tab-nav">
+                    <button class="tab-btn active" onclick="switchTab('resources', this)">
+                        <i class="fas fa-book"></i> الموارد
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('categories', this)">
+                        <i class="fas fa-folder"></i> الفئات
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('settings', this)">
+                        <i class="fas fa-cog"></i> إعدادات الموقع
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- المحتوى الرئيسي -->
         <div class="admin-content">
-            <!-- بطاقات الإحصائيات -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: var(--primary-light);">📚</div>
-                    <div class="stat-card-info">
-                        <h3 id="statTotal">0</h3>
-                        <p>إجمالي الموارد</p>
+
+            <!-- ====== تبويب الموارد ====== -->
+            <div class="tab-content active" id="tab-resources">
+                <!-- بطاقات الإحصائيات -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: var(--primary-light);"><i class="fas fa-book"></i></div>
+                        <div class="stat-card-info">
+                            <h3 id="statTotal">0</h3>
+                            <p>إجمالي الموارد</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: var(--secondary-light);"><i class="fas fa-folder"></i></div>
+                        <div class="stat-card-info">
+                            <h3 id="statCategories">0</h3>
+                            <p>الفئات</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: var(--accent-light);"><i class="fab fa-youtube"></i></div>
+                        <div class="stat-card-info">
+                            <h3 id="statYoutube">0</h3>
+                            <p>قنوات يوتيوب</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: #f5f3ff;"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="stat-card-info">
+                            <h3 id="statPlatforms">0</h3>
+                            <p>منصات تدريس</p>
+                        </div>
                     </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: var(--secondary-light);">📂</div>
-                    <div class="stat-card-info">
-                        <h3 id="statCategories">0</h3>
-                        <p>الفئات</p>
+
+                <!-- شريط الأدوات -->
+                <div class="toolbar">
+                    <div class="toolbar-search">
+                        <input type="text" id="adminSearch" placeholder="ابحث في الموارد..." oninput="renderTable()">
                     </div>
+                    <button class="btn-success" onclick="openAddModal()">
+                        <i class="fas fa-plus"></i>
+                        إضافة مورد جديد
+                    </button>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: var(--accent-light);">🎬</div>
-                    <div class="stat-card-info">
-                        <h3 id="statYoutube">0</h3>
-                        <p>قنوات يوتيوب</p>
+
+                <!-- جدول الموارد -->
+                <div class="table-wrap">
+                    <div class="table-header">
+                        <h3><i class="fas fa-list"></i> قائمة الموارد التعليمية</h3>
+                        <span id="tableCount" style="color: var(--text-light); font-size: 0.88rem;"></span>
                     </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #f5f3ff;">🎓</div>
-                    <div class="stat-card-info">
-                        <h3 id="statPlatforms">0</h3>
-                        <p>منصات تدريس</p>
+                    <div id="tableBody">
+                        <!-- يتم إنشاؤها ديناميكياً -->
                     </div>
                 </div>
             </div>
 
-            <!-- شريط الأدوات -->
-            <div class="toolbar">
-                <div class="toolbar-search">
-                    <input type="text" id="adminSearch" placeholder="ابحث في الموارد..." oninput="renderTable()">
+            <!-- ====== تبويب الفئات ====== -->
+            <div class="tab-content" id="tab-categories">
+                <!-- شريط الأدوات -->
+                <div class="toolbar">
+                    <h3 style="font-family: 'Cairo', sans-serif; font-size: 1.1rem;"><i class="fas fa-folder-open"></i> إدارة فئات الموارد</h3>
+                    <button class="btn-success" onclick="openCategoryModal()">
+                        <i class="fas fa-plus"></i>
+                        إضافة فئة جديدة
+                    </button>
                 </div>
-                <button class="btn-success" onclick="openAddModal()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                    إضافة مورد جديد
-                </button>
-            </div>
 
-            <!-- جدول الموارد -->
-            <div class="resources-table-wrap">
-                <div class="table-header">
-                    <h3>📋 قائمة الموارد التعليمية</h3>
-                    <span id="tableCount" style="color: var(--text-light); font-size: 0.88rem;"></span>
-                </div>
-                <div id="tableBody">
+                <!-- شبكة الفئات -->
+                <div class="categories-grid" id="categoriesGrid">
                     <!-- يتم إنشاؤها ديناميكياً -->
                 </div>
             </div>
+
+            <!-- ====== تبويب الإعدادات ====== -->
+            <div class="tab-content" id="tab-settings">
+
+                <!-- قسم إعدادات الرأس -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <div class="section-icon" style="background: var(--primary-light);"><i class="fas fa-tag"></i></div>
+                        <h3>إعدادات الرأس</h3>
+                    </div>
+                    <div class="settings-section-body">
+                        <div class="settings-row">
+                            <div class="form-group">
+                                <label class="form-label" for="settingsSiteName">اسم الموقع</label>
+                                <input type="text" class="form-input" id="settingsSiteName" placeholder="اسم الموقع">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">شعار الموقع</label>
+                                <div class="logo-upload-area">
+                                    <div class="logo-preview" id="logoPreview">
+                                        <span id="logoPreviewContent">📚</span>
+                                    </div>
+                                    <div class="logo-options">
+                                        <button type="button" class="btn-outline" onclick="openLogoIconPicker()">
+                                            <i class="fas fa-icons"></i> اختر أيقونة
+                                        </button>
+                                        <label class="btn-outline" style="cursor: pointer;">
+                                            <i class="fas fa-upload"></i> رفع صورة
+                                            <input type="file" accept="image/*" id="logoUpload" style="display:none" onchange="handleLogoUpload(event)">
+                                        </label>
+                                        <button type="button" class="btn-outline" id="btnRemoveLogo" onclick="removeLogo()" style="display:none; color: var(--danger); border-color: var(--danger);">
+                                            <i class="fas fa-trash"></i> إزالة الصورة
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- قسم إعدادات البانر -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <div class="section-icon" style="background: var(--accent-light);"><i class="fas fa-image"></i></div>
+                        <h3>إعدادات قسم البانر (Hero)</h3>
+                    </div>
+                    <div class="settings-section-body">
+                        <div class="form-group">
+                            <label class="form-label" for="heroTitle">عنوان البانر</label>
+                            <input type="text" class="form-input" id="heroTitle" placeholder="عنوان رئيسي للموقع">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="heroDescription">وصف البانر</label>
+                            <textarea class="form-input large" id="heroDescription" placeholder="وصف تفصيلي يظهر في قسم البانر..." oninput="updateHeroCharCount()"></textarea>
+                            <div class="char-count" id="heroDescCharCount">0 حرف</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- قسم إعدادات التذييل -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <div class="section-icon" style="background: var(--secondary-light);"><i class="fas fa-clipboard-list"></i></div>
+                        <h3>إعدادات التذييل (Footer)</h3>
+                    </div>
+                    <div class="settings-section-body">
+                        <div class="form-group">
+                            <label class="form-label" for="footerAbout">نبذة عن الموقع</label>
+                            <textarea class="form-input" id="footerAbout" placeholder="نبذة تعريفية مختصرة عن الموقع..." oninput="updateFooterAboutCharCount()"></textarea>
+                            <div class="char-count" id="footerAboutCharCount">0 حرف</div>
+                        </div>
+                        <div class="settings-row">
+                            <div class="form-group">
+                                <label class="form-label" for="footerLine1">السطر الأول</label>
+                                <input type="text" class="form-input" id="footerLine1" placeholder="السطر الأول في التذييل">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="footerLine2">السطر الثاني</label>
+                                <input type="text" class="form-input" id="footerLine2" placeholder="السطر الثاني في التذييل">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- زر الحفظ -->
+                <div class="settings-save-bar">
+                    <button class="btn-save-settings" onclick="saveAllSettings()">
+                        <i class="fas fa-save"></i>
+                        حفظ جميع الإعدادات
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- ====== Modal - إضافة / تعديل ====== -->
+    <!-- ====== Modal - إضافة / تعديل مورد ====== -->
     <div class="modal-overlay" id="resourceModal">
         <div class="modal">
             <div class="modal-header">
-                <h2 id="modalTitle">إضافة مورد جديد</h2>
-                <button class="modal-close" onclick="closeModal()">✕</button>
+                <h2 id="modalTitle"><i class="fas fa-book"></i> إضافة مورد جديد</h2>
+                <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
                 <form id="resourceForm" onsubmit="handleFormSubmit(event)">
@@ -908,11 +1442,6 @@
                         <label class="form-label" for="resCategory">الفئة *</label>
                         <select class="form-select" id="resCategory" required>
                             <option value="">اختر الفئة...</option>
-                            <option value="websites">مواقع تربوية</option>
-                            <option value="youtube">قنوات يوتيوب</option>
-                            <option value="pdf">كتب PDF</option>
-                            <option value="platforms">منصات تدريس</option>
-                            <option value="tools">أدوات تعليمية</option>
                         </select>
                     </div>
 
@@ -928,32 +1457,17 @@
 
                     <div class="form-group">
                         <label class="form-label">الأيقونة</label>
-                        <div class="icon-picker" id="iconPicker">
-                            <button type="button" class="icon-option" data-icon="📚">📚</button>
-                            <button type="button" class="icon-option" data-icon="🎓">🎓</button>
-                            <button type="button" class="icon-option" data-icon="🏫">🏫</button>
-                            <button type="button" class="icon-option" data-icon="🌐">🌐</button>
-                            <button type="button" class="icon-option" data-icon="🎬">🎬</button>
-                            <button type="button" class="icon-option" data-icon="📖">📖</button>
-                            <button type="button" class="icon-option" data-icon="📝">📝</button>
-                            <button type="button" class="icon-option" data-icon="🏛️">🏛️</button>
-                            <button type="button" class="icon-option" data-icon="🔬">🔬</button>
-                            <button type="button" class="icon-option" data-icon="🎨">🎨</button>
-                            <button type="button" class="icon-option" data-icon="🛠️">🛠️</button>
-                            <button type="button" class="icon-option" data-icon="💡">💡</button>
-                            <button type="button" class="icon-option" data-icon="🧪">🧪</button>
-                            <button type="button" class="icon-option" data-icon="📐">📐</button>
-                            <button type="button" class="icon-option" data-icon="🌍">🌍</button>
-                            <button type="button" class="icon-option" data-icon="🎯">🎯</button>
-                            <button type="button" class="icon-option" data-icon="📊">📊</button>
-                            <button type="button" class="icon-option" data-icon="🖥️">🖥️</button>
+                        <div class="selected-icon-display" id="resIconDisplay" onclick="openIconPickerForResource()">
+                            <div class="current-icon" id="resIconPreview">📚</div>
+                            <span class="icon-label" id="resIconLabel">اختر أيقونة</span>
+                            <span class="change-hint"><i class="fas fa-exchange-alt"></i> تغيير</span>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button class="btn-success" onclick="document.getElementById('resourceForm').requestSubmit()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    <i class="fas fa-check"></i>
                     <span id="modalSubmitText">حفظ المورد</span>
                 </button>
                 <button class="btn-outline" onclick="closeModal()">إلغاء</button>
@@ -961,15 +1475,109 @@
         </div>
     </div>
 
-    <!-- ====== Modal تأكيد الحذف ====== -->
+    <!-- ====== Modal - إضافة / تعديل فئة ====== -->
+    <div class="modal-overlay" id="categoryModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="categoryModalTitle"><i class="fas fa-folder-plus"></i> إضافة فئة جديدة</h2>
+                <button class="modal-close" onclick="closeCategoryModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="categoryForm" onsubmit="handleCategoryFormSubmit(event)">
+                    <input type="hidden" id="editCategoryKey">
+
+                    <div class="form-group">
+                        <label class="form-label" for="catName">اسم الفئة (باللغة العربية) *</label>
+                        <input type="text" class="form-input" id="catName" placeholder="مثال: مواقع تربوية" required oninput="autoGenerateKey()">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="catKey">المعرّف (Key) *</label>
+                        <input type="text" class="form-input" id="catKey" placeholder="مثال: websites" required dir="ltr" style="text-align: left; font-family: 'Roboto', monospace;">
+                        <p style="font-size: 0.78rem; color: var(--text-light); margin-top: 0.3rem;">يُستخدم كمعرّف فريد - أحرف إنجليزية صغيرة وأرقام فقط</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">أيقونة الفئة</label>
+                        <div class="selected-icon-display" id="catIconDisplay" onclick="openIconPickerForCategory()">
+                            <div class="current-icon" id="catIconPreview">🌐</div>
+                            <span class="icon-label" id="catIconLabel">اختر أيقونة</span>
+                            <span class="change-hint"><i class="fas fa-exchange-alt"></i> تغيير</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">لون الفئة</label>
+                        <div class="color-picker" id="catColorPicker">
+                            <div class="color-swatch" data-color="#1a73a7" style="background: #1a73a7;" onclick="selectCategoryColor(this)"></div>
+                            <div class="color-swatch" data-color="#dc2626" style="background: #dc2626;" onclick="selectCategoryColor(this)"></div>
+                            <div class="color-swatch" data-color="#ea580c" style="background: #ea580c;" onclick="selectCategoryColor(this)"></div>
+                            <div class="color-swatch" data-color="#059669" style="background: #059669;" onclick="selectCategoryColor(this)"></div>
+                            <div class="color-swatch" data-color="#7c3aed" style="background: #7c3aed;" onclick="selectCategoryColor(this)"></div>
+                            <div class="color-swatch" data-color="#f59e0b" style="background: #f59e0b;" onclick="selectCategoryColor(this)"></div>
+                            <div class="color-swatch" data-color="#0891b2" style="background: #0891b2;" onclick="selectCategoryColor(this)"></div>
+                            <div class="color-swatch" data-color="#be185d" style="background: #be185d;" onclick="selectCategoryColor(this)"></div>
+                            <div class="color-swatch" data-color="#4f46e5" style="background: #4f46e5;" onclick="selectCategoryColor(this)"></div>
+                            <div class="color-swatch" data-color="#65a30d" style="background: #65a30d;" onclick="selectCategoryColor(this)"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-success" onclick="document.getElementById('categoryForm').requestSubmit()">
+                    <i class="fas fa-check"></i>
+                    <span id="catModalSubmitText">حفظ الفئة</span>
+                </button>
+                <button class="btn-outline" onclick="closeCategoryModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== Icon Picker Modal (قابل لإعادة الاستخدام) ====== -->
+    <div class="modal-overlay" id="iconPickerModal">
+        <div class="modal" style="max-width: 580px;">
+            <div class="modal-header">
+                <h2><i class="fas fa-icons"></i> اختيار أيقونة</h2>
+                <button class="modal-close" onclick="closeIconPicker()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="padding: 1rem;">
+                <!-- بحث -->
+                <div style="position: relative; margin-bottom: 0.75rem;">
+                    <input type="text" id="iconSearchInput" class="form-input" placeholder="ابحث عن أيقونة..." oninput="filterIcons()" style="padding-right: 2.5rem;">
+                    <i class="fas fa-search" style="position: absolute; right: 0.85rem; top: 50%; transform: translateY(-50%); color: var(--text-light);"></i>
+                </div>
+                <!-- تبويبات -->
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+                    <button class="btn-outline icon-picker-tab active" onclick="switchIconTab('fa', this)" style="flex:1; justify-content: center;">
+                        <i class="fab fa-font-awesome"></i> Font Awesome
+                    </button>
+                    <button class="btn-outline icon-picker-tab" onclick="switchIconTab('emoji', this)" style="flex:1; justify-content: center;">
+                        رموز تعبيرية
+                    </button>
+                </div>
+                <!-- شبكة الأيقونات -->
+                <div id="iconPickerGrid" class="icon-picker-grid">
+                    <!-- يتم إنشاؤها ديناميكياً -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-success" onclick="confirmIconSelection()">
+                    <i class="fas fa-check"></i> تأكيد
+                </button>
+                <button class="btn-outline" onclick="closeIconPicker()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== Modal تأكيد الحذف (مورد) ====== -->
     <div class="modal-overlay" id="deleteModal">
         <div class="modal" style="max-width: 400px;">
             <div class="modal-header">
-                <h2>⚠️ تأكيد الحذف</h2>
-                <button class="modal-close" onclick="closeDeleteModal()">✕</button>
+                <h2><i class="fas fa-exclamation-triangle"></i> تأكيد الحذف</h2>
+                <button class="modal-close" onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">🗑️</div>
+                <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--danger);"><i class="fas fa-trash-alt"></i></div>
                 <p style="font-size: 1rem; color: var(--text-medium);">هل أنت متأكد من حذف المورد:</p>
                 <p style="font-size: 1.1rem; font-weight: 700; color: var(--danger); margin-top: 0.5rem;" id="deleteResourceName"></p>
                 <p style="font-size: 0.88rem; color: var(--text-light); margin-top: 0.5rem;">لا يمكن التراجع عن هذا الإجراء</p>
@@ -981,25 +1589,455 @@
         </div>
     </div>
 
+    <!-- ====== Modal تأكيد الحذف (فئة) ====== -->
+    <div class="modal-overlay" id="deleteCategoryModal">
+        <div class="modal" style="max-width: 420px;">
+            <div class="modal-header">
+                <h2><i class="fas fa-exclamation-triangle"></i> تأكيد حذف الفئة</h2>
+                <button class="modal-close" onclick="closeDeleteCategoryModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--danger);"><i class="fas fa-trash-alt"></i></div>
+                <p style="font-size: 1rem; color: var(--text-medium);">هل أنت متأكد من حذف الفئة:</p>
+                <p style="font-size: 1.1rem; font-weight: 700; color: var(--danger); margin-top: 0.5rem;" id="deleteCategoryName"></p>
+                <div id="deleteCategoryWarning" style="display: none; margin-top: 1rem; padding: 0.75rem; background: var(--accent-light); border-radius: 8px; font-size: 0.88rem; color: #92400e;">
+                    <i class="fas fa-exclamation-triangle"></i> توجد موارد مرتبطة بهذه الفئة وستفقد ارتباطها
+                </div>
+                <p style="font-size: 0.88rem; color: var(--text-light); margin-top: 0.5rem;">لا يمكن التراجع عن هذا الإجراء</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-danger-outline" onclick="confirmDeleteCategory()" style="padding: 0.6rem 1.5rem; font-size: 0.95rem;">نعم، احذف</button>
+                <button class="btn-outline" onclick="closeDeleteCategoryModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ====== Toast ====== -->
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // ====== الثوابت ======
+        // ====== قوائم الأيقونات ======
+        const faIcons = [
+            // تعليمية
+            { icon: "fas fa-graduation-cap", name: "قبعة تخرج" },
+            { icon: "fas fa-school", name: "مدرسة" },
+            { icon: "fas fa-book", name: "كتاب" },
+            { icon: "fas fa-book-open", name: "كتاب مفتوح" },
+            { icon: "fas fa-book-reader", name: "قارئ" },
+            { icon: "fas fa-chalkboard-teacher", name: "معلم" },
+            { icon: "fas fa-chalkboard", name: "سبورة" },
+            { icon: "fas fa-user-graduate", name: "خريج" },
+            { icon: "fas fa-brain", name: "عقل" },
+            { icon: "fas fa-lightbulb", name: "فكرة" },
+            { icon: "fas fa-pen", name: "قلم" },
+            { icon: "fas fa-pencil-alt", name: "قلم رصاص" },
+            { icon: "fas fa-pen-fancy", name: "قلم فاخر" },
+            { icon: "fas fa-marker", name: "ماركر" },
+            { icon: "fas fa-highlighter", name: "مُظلل" },
+            // تقنية
+            { icon: "fas fa-laptop", name: "حاسوب محمول" },
+            { icon: "fas fa-desktop", name: "حاسوب مكتبي" },
+            { icon: "fas fa-mobile-alt", name: "هاتف" },
+            { icon: "fas fa-tablet-alt", name: "جهاز لوحي" },
+            { icon: "fas fa-keyboard", name: "لوحة مفاتيح" },
+            { icon: "fas fa-mouse", name: "فأرة" },
+            { icon: "fas fa-code", name: "برمجة" },
+            { icon: "fas fa-database", name: "قاعدة بيانات" },
+            { icon: "fas fa-server", name: "خادم" },
+            { icon: "fas fa-wifi", name: "واي فاي" },
+            { icon: "fas fa-cloud", name: "سحابة" },
+            { icon: "fas fa-microchip", name: "معالج" },
+            // وسائط
+            { icon: "fas fa-video", name: "فيديو" },
+            { icon: "fas fa-camera", name: "كاميرا" },
+            { icon: "fas fa-photo-video", name: "صورة وفيديو" },
+            { icon: "fas fa-microphone", name: "ميكروفون" },
+            { icon: "fas fa-headphones", name: "سماعات" },
+            { icon: "fas fa-volume-up", name: "صوت" },
+            { icon: "fas fa-music", name: "موسيقى" },
+            { icon: "fas fa-palette", name: "لوحة ألوان" },
+            { icon: "fas fa-paint-brush", name: "فرشاة رسم" },
+            // رياضيات وعلم
+            { icon: "fas fa-calculator", name: "حاسبة" },
+            { icon: "fas fa-flask", name: "قارورة" },
+            { icon: "fas fa-microscope", name: "مجهر" },
+            { icon: "fas fa-atom", name: "ذرة" },
+            { icon: "fas fa-dna", name: "DNA" },
+            { icon: "fas fa-chart-bar", name: "رسم بياني" },
+            { icon: "fas fa-chart-line", name: "خط بياني" },
+            { icon: "fas fa-chart-pie", name: "دائري" },
+            { icon: "fas fa-table", name: "جدول" },
+            { icon: "fas fa-square-root-alt", name: "جذر تربيعي" },
+            // عامة
+            { icon: "fas fa-globe", name: "كرة أرضية" },
+            { icon: "fas fa-link", name: "رابط" },
+            { icon: "fas fa-external-link-alt", name: "رابط خارجي" },
+            { icon: "fas fa-home", name: "بيت" },
+            { icon: "fas fa-building", name: "مبنى" },
+            { icon: "fas fa-landmark", name: "معلم" },
+            { icon: "fas fa-map-marker-alt", name: "موقع" },
+            { icon: "fas fa-star", name: "نجمة" },
+            { icon: "fas fa-heart", name: "قلب" },
+            { icon: "fas fa-bell", name: "جرس" },
+            { icon: "fas fa-comment", name: "تعليق" },
+            { icon: "fas fa-envelope", name: "بريد" },
+            { icon: "fas fa-folder", name: "مجلد" },
+            { icon: "fas fa-file-alt", name: "ملف" },
+            { icon: "fas fa-file-pdf", name: "ملف PDF" },
+            { icon: "fas fa-tools", name: "أدوات" },
+            { icon: "fas fa-cog", name: "إعدادات" },
+            { icon: "fas fa-shield-alt", name: "درع" },
+            { icon: "fas fa-trophy", name: "كأس" },
+            { icon: "fas fa-medal", name: "ميدالية" },
+            { icon: "fas fa-rocket", name: "صاروخ" },
+            { icon: "fas fa-bullseye", name: "هدف" },
+            { icon: "fas fa-puzzle-piece", name: "قطعة بازل" },
+            { icon: "fas fa-gamepad", name: "تحكم ألعاب" },
+            { icon: "fas fa-question-circle", name: "سؤال" },
+            // Brands
+            { icon: "fab fa-youtube", name: "يوتيوب" },
+            { icon: "fab fa-google", name: "جوجل" },
+            { icon: "fab fa-microsoft", name: "مايكروسوفت" },
+            { icon: "fab fa-apple", name: "أبل" },
+            { icon: "fab fa-twitter", name: "تويتر" },
+            { icon: "fab fa-facebook", name: "فيسبوك" },
+            { icon: "fab fa-instagram", name: "انستغرام" },
+            { icon: "fab fa-whatsapp", name: "واتساب" },
+            { icon: "fab fa-telegram", name: "تيلغرام" },
+            { icon: "fab fa-discord", name: "ديسكورد" },
+            { icon: "fab fa-slack", name: "سلاك" },
+            { icon: "fab fa-github", name: "جيت هب" },
+            { icon: "fab fa-wordpress", name: "ووردبريس" },
+            { icon: "fab fa-tiktok", name: "تيك توك" }
+        ];
+
+        const emojiIcons = [
+            "📚", "🎓", "🏫", "🌐", "🎬", "📖", "📝", "🏛️", "🔬", "🎨",
+            "🛠️", "💡", "🧪", "📐", "🌍", "🎯", "📊", "🖥️", "🚀", "⭐",
+            "📋", "🗂️", "📹", "🎮", "🧩", "🏆", "🏅", "💰", "📱", "💻",
+            "📐", "🔤", "🔢", "🎭", "🎵", "📸", "🗺️", "🏠", "🏢", "🔬"
+        ];
+
+        // ====== البيانات الافتراضية ======
         const ADMIN_PASSWORD = "admin123";
 
-        const categoryNames = {
-            websites: "مواقع تربوية",
-            youtube: "قنوات يوتيوب",
-            pdf: "كتب PDF",
-            platforms: "منصات تدريس",
-            tools: "أدوات تعليمية"
+        const defaultCategories = [
+            { key: "websites", name: "مواقع تربوية", icon: "fas fa-globe", color: "#1a73a7" },
+            { key: "youtube", name: "قنوات يوتيوب", icon: "fab fa-youtube", color: "#dc2626" },
+            { key: "pdf", name: "كتب PDF", icon: "fas fa-file-pdf", color: "#ea580c" },
+            { key: "platforms", name: "منصات تدريس", icon: "fas fa-graduation-cap", color: "#059669" },
+            { key: "tools", name: "أدوات تعليمية", icon: "fas fa-tools", color: "#7c3aed" }
+        ];
+
+        const defaultSettings = {
+            siteName: "دليلي",
+            siteLogo: "📚",
+            footerAbout: "دليلي منصة رائدة لنشر المعرفة الرقمية وتعزيز ثقافة الذكاء الاصطناعي في المجال التعليمي، تجمع لك أفضل الموارد التعليمية في مكان واحد.",
+            footerLine1: "دليلي منصة رائدة لنشر المعرفة الرقمية وتعزيز ثقافة الذكاء الاصطناعي",
+            footerLine2: "© 2026 جميع الحقوق محفوظة لـ مركز تطوير طواقم التربية والتعليم"
         };
+
+        const defaultHero = {
+            title: "🌍 دليلك الشامل للموارد التعليمية الرقمية",
+            description: "دليلي هو وجهتك الأولى لعالم الموارد التعليمية الرقمية، حيث يجمع لك بين أفضل المواقع التربوية، والملفات التعليمية، والقنوات المتخصصة، والأدوات التفاعلية، في مكان واحد ينظمه الذكاء البشري ويدعمه الذكاء الاصطناعي. سواء كنت طالباً تبحث عن شرح وافٍ، أو معلماً يسعى إلى مصدر موثوق، أو ولي أمر يريد توجيه أبنائه نحو المحتوى الهادف، فإن دليلي يصحَبُك بخطواتٍ مدروسة إلى كنوز المعرفة المنظمة والمُجربة. نؤمن بأن التعليم حقٌ للجميع، وأن الوصول إلى المعلومة الصحيحة يجب أن يكون سهلاً، سريعاً، وممتعاً. لهذا، نبني جسوراً بينك وبين أجمل ما أنتجته العقول في عالم التربية والتعليم."
+        };
+
+        const defaultResources = [
+            { id: 1, name: "منصة إدراك", category: "منصات تدريس", categoryKey: "platforms", description: "منصة تعليمية سعودية تقدم مناهج رقمية تفاعلية لجميع المراحل الدراسية مع محتوى متنوع يشمل فيديوهات واختبارات ودروس تفاعلية.", url: "https://www.edraak.org", icon: "fas fa-graduation-cap", colorClass: "platforms", color: "#059669" },
+            { id: 2, name: "قناة تعليمية - كورسات", category: "قنوات يوتيوب", categoryKey: "youtube", description: "قناة يوتيوب تعليمية تقدم شروحات مبسطة في البرمجة والتصميم والتقنية باللغة العربية مع مشاريع تطبيقية حقيقية.", url: "https://www.youtube.com", icon: "fab fa-youtube", colorClass: "youtube", color: "#dc2626" },
+            { id: 3, name: "وزارة التعليم السعودية", category: "مواقع تربوية", categoryKey: "websites", description: "الموقع الرسمي لوزارة التعليم السعودية، يحتوي على الأخبار التعليمية والخدمات الإلكترونية والمناهج الدراسية ونتائج الطلاب.", url: "https://www.moe.gov.sa", icon: "fas fa-landmark", colorClass: "websites", color: "#1a73a7" },
+            { id: 4, name: "مكتبة الكتب التعليمية PDF", category: "كتب PDF", categoryKey: "pdf", description: "مكتبة إلكترونية مجانية تضم آلاف الكتب والمراجع التعليمية بصيغة PDF في مختلف التخصصات والمراحل الدراسية.", url: "https://www.pdfdrive.com", icon: "fas fa-file-pdf", colorClass: "pdf", color: "#ea580c" },
+            { id: 5, name: "أداة Quizizz للاختبارات", category: "أدوات تعليمية", categoryKey: "tools", description: "منصة تفاعلية لإنشاء وإجراء الاختبارات والاختبارات السريعة بطريقة ممتعة ومسابقات بين الطلاب مع نتائج فورية.", url: "https://quizizz.com", icon: "fas fa-question-circle", colorClass: "tools", color: "#7c3aed" },
+            { id: 6, name: "مدرستي - المنصة الوطنية", category: "منصات تدريس", categoryKey: "platforms", description: "المنصة التعليمية الوطنية التي توفر الدروس والمحتوى التعليمي للطلاب في جميع المراحل مع متابعة مستمرة من المعلمين.", url: "https://my.moe.gov.sa", icon: "fas fa-school", colorClass: "platforms", color: "#059669" },
+            { id: 7, name: "قناة دار الفرقان", category: "قنوات يوتيوب", categoryKey: "youtube", description: "قناة تعليمية متخصصة في العلوم والرياضيات تقدم شروحات واضحة ومبسطة للطلاب في المرحلة الثانوية والجامعية.", url: "https://www.youtube.com", icon: "fas fa-microscope", colorClass: "youtube", color: "#dc2626" },
+            { id: 8, name: "Canva للتعليم", category: "أدوات تعليمية", categoryKey: "tools", description: "أداة تصميم مجانية مخصصة للمعلمين والطلاب لإنشاء عروض تقديمية وملصقات تعليمية ونشاطات فصلية إبداعية.", url: "https://www.canva.com/education", icon: "fas fa-palette", colorClass: "tools", color: "#7c3aed" }
+        ];
 
         // ====== المتغيرات العامة ======
         let resources = [];
-        let selectedIcon = "📚";
+        let categories = [];
+        let settings = {};
+        let hero = {};
+        let selectedIcon = "fas fa-book";
+        let selectedCatIcon = "fas fa-globe";
+        let selectedCatColor = "#1a73a7";
+        let selectedLogoIcon = "📚";
         let deleteTargetId = null;
+        let deleteCategoryTargetKey = null;
+        let editingCategoryOriginalKey = null;
+
+        // ====== Icon Picker State ======
+        let iconPickerCallback = null;
+        let iconPickerCurrentTab = "fa";
+        let iconPickerTempSelection = null;
+
+        // ====== Helper: render an icon string as HTML ======
+        function renderIcon(iconStr) {
+            if (!iconStr) return "📌";
+            if (iconStr.indexOf("fa") === 0 || iconStr.indexOf("fa-") !== -1) {
+                return '<i class="' + iconStr + '"></i>';
+            }
+            return iconStr;
+        }
+
+        function isFontAwesomeIcon(iconStr) {
+            return iconStr && (iconStr.indexOf("fa") === 0 || iconStr.indexOf("fa-") !== -1);
+        }
+
+        function getIconName(iconStr) {
+            if (!iconStr) return "";
+            var found = faIcons.find(function(i) { return i.icon === iconStr; });
+            return found ? found.name : iconStr;
+        }
+
+        // ====== Icon Picker Functions ======
+        function openIconPicker(currentValue, callback) {
+            iconPickerCallback = callback;
+            iconPickerTempSelection = currentValue || "";
+            iconPickerCurrentTab = isFontAwesomeIcon(iconPickerTempSelection) ? "fa" : "emoji";
+            document.getElementById("iconSearchInput").value = "";
+            renderIconPickerGrid();
+            updateIconPickerTabs();
+            document.getElementById("iconPickerModal").classList.add("active");
+        }
+
+        function closeIconPicker() {
+            document.getElementById("iconPickerModal").classList.remove("active");
+            iconPickerCallback = null;
+            iconPickerTempSelection = null;
+        }
+
+        function switchIconTab(tab, btn) {
+            iconPickerCurrentTab = tab;
+            document.getElementById("iconSearchInput").value = "";
+            updateIconPickerTabs();
+            renderIconPickerGrid();
+        }
+
+        function updateIconPickerTabs() {
+            var tabs = document.querySelectorAll(".icon-picker-tab");
+            tabs.forEach(function(t) { t.classList.remove("active"); });
+            if (iconPickerCurrentTab === "fa") {
+                tabs[0].classList.add("active");
+            } else {
+                tabs[1].classList.add("active");
+            }
+        }
+
+        function filterIcons() {
+            renderIconPickerGrid();
+        }
+
+        function renderIconPickerGrid() {
+            var grid = document.getElementById("iconPickerGrid");
+            var search = (document.getElementById("iconSearchInput").value || "").toLowerCase().trim();
+            var html = "";
+
+            if (iconPickerCurrentTab === "fa") {
+                var filtered = faIcons;
+                if (search) {
+                    filtered = faIcons.filter(function(item) {
+                        return item.name.toLowerCase().includes(search) || item.icon.toLowerCase().includes(search);
+                    });
+                }
+                if (filtered.length === 0) {
+                    html = '<div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--text-light);"><i class="fas fa-search" style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block;"></i>لم يتم العثور على نتائج</div>';
+                } else {
+                    filtered.forEach(function(item) {
+                        var isSelected = iconPickerTempSelection === item.icon ? " selected" : "";
+                        html += '<button type="button" class="icon-picker-item' + isSelected + '" data-icon="' + item.icon + '" title="' + item.name + '" onclick="selectIconInPicker(\'' + item.icon + '\', this)"><i class="' + item.icon + '"></i></button>';
+                    });
+                }
+            } else {
+                emojiIcons.forEach(function(emoji) {
+                    var isSelected = iconPickerTempSelection === emoji ? " selected" : "";
+                    html += '<button type="button" class="icon-picker-item' + isSelected + '" data-icon="' + emoji + '" title="' + emoji + '" onclick="selectIconInPicker(\'' + emoji + '\', this)">' + emoji + '</button>';
+                });
+            }
+
+            grid.innerHTML = html;
+        }
+
+        function selectIconInPicker(iconValue, btn) {
+            iconPickerTempSelection = iconValue;
+            document.querySelectorAll("#iconPickerGrid .icon-picker-item").forEach(function(b) {
+                b.classList.remove("selected");
+            });
+            btn.classList.add("selected");
+        }
+
+        function confirmIconSelection() {
+            if (iconPickerCallback && iconPickerTempSelection) {
+                iconPickerCallback(iconPickerTempSelection);
+            }
+            closeIconPicker();
+        }
+
+        // ====== Context-specific icon picker openers ======
+        function openIconPickerForResource() {
+            openIconPicker(selectedIcon, function(value) {
+                selectedIcon = value;
+                updateResourceIconDisplay();
+            });
+        }
+
+        function openIconPickerForCategory() {
+            openIconPicker(selectedCatIcon, function(value) {
+                selectedCatIcon = value;
+                updateCategoryIconDisplay();
+            });
+        }
+
+        function openLogoIconPicker() {
+            openIconPicker(selectedLogoIcon, function(value) {
+                selectedLogoIcon = value;
+                updateLogoPreview();
+            });
+        }
+
+        function updateResourceIconDisplay() {
+            var preview = document.getElementById("resIconPreview");
+            var label = document.getElementById("resIconLabel");
+            if (isFontAwesomeIcon(selectedIcon)) {
+                preview.innerHTML = '<i class="' + selectedIcon + '"></i>';
+                preview.style.fontSize = "1.1rem";
+            } else {
+                preview.textContent = selectedIcon;
+                preview.style.fontSize = "1.3rem";
+            }
+            label.textContent = getIconName(selectedIcon) || selectedIcon;
+        }
+
+        function updateCategoryIconDisplay() {
+            var preview = document.getElementById("catIconPreview");
+            var label = document.getElementById("catIconLabel");
+            if (isFontAwesomeIcon(selectedCatIcon)) {
+                preview.innerHTML = '<i class="' + selectedCatIcon + '"></i>';
+                preview.style.fontSize = "1.1rem";
+            } else {
+                preview.textContent = selectedCatIcon;
+                preview.style.fontSize = "1.3rem";
+            }
+            label.textContent = getIconName(selectedCatIcon) || selectedCatIcon;
+        }
+
+        // ====== Logo Upload ======
+        function handleLogoUpload(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                showToast('يرجى اختيار ملف صورة', 'error');
+                return;
+            }
+            if (file.size > 500000) {
+                showToast('حجم الصورة يجب أن يكون أقل من 500 كيلوبايت', 'error');
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                selectedLogoIcon = e.target.result;
+                updateLogoPreview();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeLogo() {
+            selectedLogoIcon = "📚";
+            document.getElementById("logoUpload").value = "";
+            updateLogoPreview();
+        }
+
+        function updateLogoPreview() {
+            var previewEl = document.getElementById("logoPreviewContent");
+            var removeBtn = document.getElementById("btnRemoveLogo");
+            if (selectedLogoIcon && selectedLogoIcon.indexOf("data:") === 0) {
+                // It's a base64 image
+                previewEl.innerHTML = '<img src="' + selectedLogoIcon + '" alt="شعار">';
+                removeBtn.style.display = "inline-flex";
+            } else {
+                // It's an icon class or emoji
+                previewEl.innerHTML = renderIcon(selectedLogoIcon || "📚");
+                removeBtn.style.display = "none";
+            }
+        }
+
+        // ====== تهيئة البيانات ======
+        function initializeData() {
+            if (!localStorage.getItem("edu_categories")) {
+                localStorage.setItem("edu_categories", JSON.stringify(defaultCategories));
+            }
+            if (!localStorage.getItem("edu_settings")) {
+                localStorage.setItem("edu_settings", JSON.stringify(defaultSettings));
+            }
+            if (!localStorage.getItem("edu_hero")) {
+                localStorage.setItem("edu_hero", JSON.stringify(defaultHero));
+            }
+            if (!localStorage.getItem("edu_resources")) {
+                localStorage.setItem("edu_resources", JSON.stringify(defaultResources));
+            }
+            // هجرة البيانات القديمة
+            try {
+                var existingRes = JSON.parse(localStorage.getItem("edu_resources") || "[]");
+                var existingCats = JSON.parse(localStorage.getItem("edu_categories") || "[]");
+                var migrated = false;
+                existingRes.forEach(function(r) {
+                    if (!r.categoryKey && r.colorClass) {
+                        r.categoryKey = r.colorClass;
+                        migrated = true;
+                    }
+                    if (!r.color) {
+                        var cat = existingCats.find(function(c) { return c.key === (r.categoryKey || r.colorClass); });
+                        r.color = cat ? cat.color : "#1a73a7";
+                        migrated = true;
+                    }
+                    if (!r.category && r.categoryKey) {
+                        var cat2 = existingCats.find(function(c) { return c.key === r.categoryKey; });
+                        if (cat2) { r.category = cat2.name; migrated = true; }
+                    }
+                });
+                if (migrated) {
+                    localStorage.setItem("edu_resources", JSON.stringify(existingRes));
+                }
+            } catch(e) {}
+        }
+
+        // ====== تحميل البيانات ======
+        function loadResources() {
+            const stored = localStorage.getItem("edu_resources");
+            resources = stored ? JSON.parse(stored) : [];
+        }
+
+        function saveResources() {
+            localStorage.setItem("edu_resources", JSON.stringify(resources));
+        }
+
+        function loadCategories() {
+            const stored = localStorage.getItem("edu_categories");
+            categories = stored ? JSON.parse(stored) : [...defaultCategories];
+        }
+
+        function saveCategories() {
+            localStorage.setItem("edu_categories", JSON.stringify(categories));
+        }
+
+        function loadSettings() {
+            const stored = localStorage.getItem("edu_settings");
+            settings = stored ? JSON.parse(stored) : { ...defaultSettings };
+            return settings;
+        }
+
+        function saveSettings() {
+            localStorage.setItem("edu_settings", JSON.stringify(settings));
+        }
+
+        function loadHero() {
+            const stored = localStorage.getItem("edu_hero");
+            hero = stored ? JSON.parse(stored) : { ...defaultHero };
+        }
+
+        function saveHero() {
+            localStorage.setItem("edu_hero", JSON.stringify(hero));
+        }
 
         // ====== تسجيل الدخول ======
         function handleLogin(e) {
@@ -1032,35 +2070,73 @@
             showToast("تم تسجيل الخروج", "success");
         }
 
-        // ====== تحميل البيانات ======
-        function loadResources() {
-            const stored = localStorage.getItem("edu_resources");
-            if (stored) {
-                resources = JSON.parse(stored);
+        // ====== التبويبات ======
+        function switchTab(tabName, btn) {
+            document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+            if (btn) btn.classList.add("active");
+            document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+            const targetTab = document.getElementById("tab-" + tabName);
+            if (targetTab) targetTab.classList.add("active");
+            if (tabName === "resources") {
+                updateStats();
+                renderTable();
+            } else if (tabName === "categories") {
+                renderCategories();
+            } else if (tabName === "settings") {
+                loadSettingsForm();
             }
-        }
-
-        function saveResources() {
-            localStorage.setItem("edu_resources", JSON.stringify(resources));
         }
 
         // ====== تحميل وعرض ======
         function loadAndRender() {
             loadResources();
+            loadCategories();
+            loadSettings();
+            loadHero();
+            updateHeaderLogo();
             updateStats();
+            populateCategoryDropdown();
             renderTable();
+            renderCategories();
+        }
+
+        // ====== تحديث شعار الرأس ======
+        function updateHeaderLogo() {
+            var s = loadSettings();
+            document.getElementById("headerLogoText").textContent = s.siteName || "دليلي";
+            var logoEl = document.getElementById("headerLogoIcon");
+            var logo = s.siteLogo || "📚";
+            if (logo && logo.indexOf("data:") === 0) {
+                logoEl.innerHTML = '<img src="' + logo + '" alt="شعار">';
+            } else {
+                logoEl.innerHTML = renderIcon(logo);
+            }
         }
 
         // ====== تحديث الإحصائيات ======
         function updateStats() {
             document.getElementById("statTotal").textContent = resources.length;
-            const cats = new Set(resources.map(r => r.category));
+            const cats = new Set(resources.map(r => r.categoryKey || r.colorClass));
             document.getElementById("statCategories").textContent = cats.size;
-            document.getElementById("statYoutube").textContent = resources.filter(r => r.colorClass === "youtube").length;
-            document.getElementById("statPlatforms").textContent = resources.filter(r => r.colorClass === "platforms").length;
+            document.getElementById("statYoutube").textContent = resources.filter(r => (r.categoryKey || r.colorClass) === "youtube").length;
+            document.getElementById("statPlatforms").textContent = resources.filter(r => (r.categoryKey || r.colorClass) === "platforms").length;
         }
 
-        // ====== عرض الجدول ======
+        // ====== ملء قائمة الفئات المنسدلة ======
+        function populateCategoryDropdown() {
+            const select = document.getElementById("resCategory");
+            const currentValue = select.value;
+            select.innerHTML = '<option value="">اختر الفئة...</option>';
+            categories.forEach(cat => {
+                const opt = document.createElement("option");
+                opt.value = cat.key;
+                opt.textContent = renderIcon(cat.icon) + " " + cat.name;
+                select.appendChild(opt);
+            });
+            if (currentValue) select.value = currentValue;
+        }
+
+        // ====== عرض جدول الموارد ======
         function renderTable() {
             const search = (document.getElementById("adminSearch").value || "").toLowerCase().trim();
             let filtered = resources;
@@ -1073,83 +2149,61 @@
                 );
             }
 
-            document.getElementById("tableCount").textContent = `${filtered.length} من ${resources.length}`;
+            document.getElementById("tableCount").textContent = filtered.length + " من " + resources.length;
 
             const container = document.getElementById("tableBody");
 
             if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📭</div>
-                        <h4>لا توجد موارد</h4>
-                        <p>${search ? 'لم يتم العثور على نتائج مطابقة للبحث' : 'ابدأ بإضافة مورد تعليمي جديد'}</p>
-                    </div>
-                `;
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon"><i class="fas fa-inbox"></i></div><h4>لا توجد موارد</h4><p>' + (search ? 'لم يتم العثور على نتائج مطابقة للبحث' : 'ابدأ بإضافة مورد تعليمي جديد') + '</p></div>';
                 return;
             }
 
-            container.innerHTML = `
-                <table class="resources-table">
-                    <thead>
-                        <tr>
-                            <th>المورد</th>
-                            <th>الفئة</th>
-                            <th>الرابط</th>
-                            <th style="width: 140px;">الإجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${filtered.map(r => `
-                            <tr>
-                                <td>
-                                    <div class="resource-name-cell">
-                                        <div class="resource-icon-sm cat-${r.colorClass}">
-                                            ${r.icon}
-                                        </div>
-                                        <div>
-                                            <div style="font-weight: 600; margin-bottom: 0.15rem;">${r.name}</div>
-                                            <div style="font-size: 0.82rem; color: var(--text-light); max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${r.description}</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="category-badge-sm cat-${r.colorClass}-light">
-                                        ${r.category}
-                                    </span>
-                                </td>
-                                <td>
-                                    <a href="${r.url}" target="_blank" rel="noopener" style="color: var(--primary); font-size: 0.85rem; text-decoration: none; word-break: break-all;">
-                                        ${r.url.length > 35 ? r.url.substring(0, 35) + '...' : r.url}
-                                    </a>
-                                </td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-icon btn-visit" title="زيارة" onclick="event.stopPropagation(); window.open('${r.url}', '_blank')">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                                        </button>
-                                        <button class="btn-icon btn-edit" title="تعديل" onclick="event.stopPropagation(); openEditModal(${r.id})">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-                                        </button>
-                                        <button class="btn-icon btn-delete" title="حذف" onclick="event.stopPropagation(); openDeleteModal(${r.id})">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        `).join("")}
-                    </tbody>
-                </table>
-            `;
+            let tableHTML = '<table class="resources-table"><thead><tr><th>المورد</th><th>الفئة</th><th>الرابط</th><th style="width: 140px;">الإجراءات</th></tr></thead><tbody>';
+
+            filtered.forEach(r => {
+                const bgColor = r.color || getCategoryColor(r.categoryKey || r.colorClass);
+                const iconHTML = renderIcon(r.icon);
+                tableHTML += '<tr>' +
+                    '<td><div class="resource-name-cell"><div class="resource-icon-sm" style="background: ' + bgColor + '22; color: ' + bgColor + ';">' + iconHTML + '</div><div><div style="font-weight: 600; margin-bottom: 0.15rem;">' + r.name + '</div><div style="font-size: 0.82rem; color: var(--text-light); max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + r.description + '</div></div></div></td>' +
+                    '<td><span class="category-badge-sm" style="background: ' + bgColor + '18; color: ' + bgColor + ';">' + r.category + '</span></td>' +
+                    '<td><a href="' + r.url + '" target="_blank" rel="noopener" style="color: var(--primary); font-size: 0.85rem; text-decoration: none;" onclick="event.stopPropagation()">' + truncateUrl(r.url) + '</a></td>' +
+                    '<td><div class="action-buttons">' +
+                    '<button class="btn-icon btn-visit" onclick="event.stopPropagation(); window.open(\'' + r.url + '\', \'_blank\')" title="زيارة"><i class="fas fa-external-link-alt"></i></button>' +
+                    '<button class="btn-icon btn-edit" onclick="event.stopPropagation(); openEditModal(' + r.id + ')" title="تعديل"><i class="fas fa-edit"></i></button>' +
+                    '<button class="btn-icon btn-delete" onclick="event.stopPropagation(); openDeleteModal(' + r.id + ')" title="حذف"><i class="fas fa-trash"></i></button>' +
+                    '</div></td>' +
+                    '</tr>';
+            });
+
+            tableHTML += '</tbody></table>';
+            container.innerHTML = tableHTML;
         }
 
-        // ====== إضافة مورد جديد ======
+        function getCategoryColor(key) {
+            if (!key) return "#1a73a7";
+            const cat = categories.find(c => c.key === key);
+            return cat ? cat.color : "#1a73a7";
+        }
+
+        function truncateUrl(url) {
+            if (!url) return "";
+            try {
+                const u = new URL(url);
+                return u.hostname;
+            } catch(e) {
+                return url.substring(0, 30) + (url.length > 30 ? "..." : "");
+            }
+        }
+
+        // ====== إضافة مورد ======
         function openAddModal() {
-            document.getElementById("modalTitle").textContent = "إضافة مورد جديد";
-            document.getElementById("modalSubmitText").textContent = "حفظ المورد";
             document.getElementById("editId").value = "";
             document.getElementById("resourceForm").reset();
-            selectedIcon = "📚";
-            updateIconPicker();
+            document.getElementById("modalTitle").innerHTML = '<i class="fas fa-plus-circle"></i> إضافة مورد جديد';
+            document.getElementById("modalSubmitText").textContent = "حفظ المورد";
+            selectedIcon = "fas fa-book";
+            updateResourceIconDisplay();
+            populateCategoryDropdown();
             document.getElementById("resourceModal").classList.add("active");
         }
 
@@ -1158,146 +2212,383 @@
             const resource = resources.find(r => r.id === id);
             if (!resource) return;
 
-            document.getElementById("modalTitle").textContent = "تعديل المورد";
-            document.getElementById("modalSubmitText").textContent = "تحديث المورد";
-            document.getElementById("editId").value = id;
+            document.getElementById("editId").value = resource.id;
             document.getElementById("resName").value = resource.name;
-            document.getElementById("resCategory").value = resource.colorClass;
-            document.getElementById("resUrl").value = resource.url;
             document.getElementById("resDescription").value = resource.description;
+            document.getElementById("resUrl").value = resource.url;
+            document.getElementById("modalTitle").innerHTML = '<i class="fas fa-edit"></i> تعديل المورد';
+            document.getElementById("modalSubmitText").textContent = "تحديث المورد";
+
+            populateCategoryDropdown();
+            document.getElementById("resCategory").value = resource.categoryKey || resource.colorClass;
+
             selectedIcon = resource.icon;
-            updateIconPicker();
+            updateResourceIconDisplay();
+
             document.getElementById("resourceModal").classList.add("active");
+        }
+
+        // ====== حفظ المورد ======
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const editId = document.getElementById("editId").value;
+            const name = document.getElementById("resName").value.trim();
+            const categoryKey = document.getElementById("resCategory").value;
+            const url = document.getElementById("resUrl").value.trim();
+            const description = document.getElementById("resDescription").value.trim();
+
+            const category = categories.find(c => c.key === categoryKey);
+            if (!category) {
+                showToast("يرجى اختيار فئة صحيحة", "error");
+                return;
+            }
+
+            if (editId) {
+                const idx = resources.findIndex(r => r.id === parseInt(editId));
+                if (idx !== -1) {
+                    resources[idx].name = name;
+                    resources[idx].category = category.name;
+                    resources[idx].categoryKey = category.key;
+                    resources[idx].url = url;
+                    resources[idx].description = description;
+                    resources[idx].icon = selectedIcon;
+                    resources[idx].colorClass = category.key;
+                    resources[idx].color = category.color;
+                    showToast("تم تحديث المورد بنجاح", "success");
+                }
+            } else {
+                const newId = resources.length > 0 ? Math.max(...resources.map(r => r.id)) + 1 : 1;
+                resources.push({
+                    id: newId,
+                    name: name,
+                    category: category.name,
+                    categoryKey: category.key,
+                    url: url,
+                    description: description,
+                    icon: selectedIcon,
+                    colorClass: category.key,
+                    color: category.color
+                });
+                showToast("تمت إضافة المورد بنجاح", "success");
+            }
+
+            saveResources();
+            closeModal();
+            updateStats();
+            renderTable();
         }
 
         function closeModal() {
             document.getElementById("resourceModal").classList.remove("active");
         }
 
-        // ====== اختيار الأيقونة ======
-        document.querySelectorAll(".icon-option").forEach(btn => {
-            btn.addEventListener("click", function() {
-                selectedIcon = this.dataset.icon;
-                updateIconPicker();
-            });
-        });
-
-        function updateIconPicker() {
-            document.querySelectorAll(".icon-option").forEach(btn => {
-                btn.classList.toggle("selected", btn.dataset.icon === selectedIcon);
-            });
-        }
-
-        // ====== حفظ النموذج ======
-        function handleFormSubmit(e) {
-            e.preventDefault();
-
-            const editId = document.getElementById("editId").value;
-            const name = document.getElementById("resName").value.trim();
-            const colorClass = document.getElementById("resCategory").value;
-            const url = document.getElementById("resUrl").value.trim();
-            const description = document.getElementById("resDescription").value.trim();
-
-            if (!name || !colorClass || !url || !description) return;
-
-            if (editId) {
-                // تعديل مورد موجود
-                const idx = resources.findIndex(r => r.id === parseInt(editId));
-                if (idx !== -1) {
-                    resources[idx] = {
-                        ...resources[idx],
-                        name,
-                        category: categoryNames[colorClass] || colorClass,
-                        colorClass,
-                        url,
-                        description,
-                        icon: selectedIcon
-                    };
-                    showToast("تم تحديث المورد بنجاح ✅", "success");
-                }
-            } else {
-                // إضافة مورد جديد
-                const newResource = {
-                    id: Date.now(),
-                    name,
-                    category: categoryNames[colorClass] || colorClass,
-                    colorClass,
-                    url,
-                    description,
-                    icon: selectedIcon
-                };
-                resources.push(newResource);
-                showToast("تم إضافة المورد بنجاح ✅", "success");
-            }
-
-            saveResources();
-            updateStats();
-            renderTable();
-            closeModal();
-        }
-
         // ====== حذف مورد ======
         function openDeleteModal(id) {
-            deleteTargetId = id;
             const resource = resources.find(r => r.id === id);
-            if (resource) {
-                document.getElementById("deleteResourceName").textContent = resource.name;
-            }
+            if (!resource) return;
+            deleteTargetId = id;
+            document.getElementById("deleteResourceName").textContent = resource.name;
             document.getElementById("deleteModal").classList.add("active");
-        }
-
-        function closeDeleteModal() {
-            document.getElementById("deleteModal").classList.remove("active");
-            deleteTargetId = null;
         }
 
         function confirmDelete() {
             if (deleteTargetId !== null) {
                 resources = resources.filter(r => r.id !== deleteTargetId);
                 saveResources();
+                showToast("تم حذف المورد بنجاح", "success");
+                deleteTargetId = null;
+                closeDeleteModal();
                 updateStats();
                 renderTable();
-                showToast("تم حذف المورد ✅", "success");
             }
-            closeDeleteModal();
+        }
+
+        function closeDeleteModal() {
+            document.getElementById("deleteModal").classList.remove("active");
+        }
+
+        // ====== عرض الفئات ======
+        function renderCategories() {
+            loadCategories();
+            const container = document.getElementById("categoriesGrid");
+
+            if (categories.length === 0) {
+                container.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><div class="empty-state-icon"><i class="fas fa-folder-open"></i></div><h4>لا توجد فئات</h4><p>ابدأ بإضافة فئة جديدة</p></div>';
+                return;
+            }
+
+            container.innerHTML = categories.map(cat => {
+                const count = resources.filter(r => (r.categoryKey || r.colorClass) === cat.key).length;
+                const iconHTML = renderIcon(cat.icon);
+                return '<div class="category-card">' +
+                    '<div class="category-card-icon" style="background: ' + cat.color + '18; color: ' + cat.color + ';">' + iconHTML + '</div>' +
+                    '<div class="category-card-info">' +
+                        '<h4>' + cat.name + '</h4>' +
+                        '<span class="category-key">' + cat.key + '</span>' +
+                        '<div class="category-count">' + count + ' مورد</div>' +
+                    '</div>' +
+                    '<div class="category-card-actions">' +
+                        '<button class="btn-icon btn-edit" onclick="openEditCategoryModal(\'' + cat.key + '\')" title="تعديل"><i class="fas fa-edit"></i></button>' +
+                        '<button class="btn-icon btn-delete" onclick="openDeleteCategoryModal(\'' + cat.key + '\')" title="حذف"><i class="fas fa-trash"></i></button>' +
+                    '</div>' +
+                    '</div>';
+            }).join('');
+        }
+
+        // ====== إضافة فئة ======
+        function openCategoryModal() {
+            document.getElementById("editCategoryKey").value = "";
+            document.getElementById("categoryForm").reset();
+            document.getElementById("categoryModalTitle").innerHTML = '<i class="fas fa-folder-plus"></i> إضافة فئة جديدة';
+            document.getElementById("catModalSubmitText").textContent = "حفظ الفئة";
+            selectedCatIcon = "fas fa-globe";
+            selectedCatColor = "#1a73a7";
+            updateCategoryIconDisplay();
+            // Reset color selection
+            document.querySelectorAll("#catColorPicker .color-swatch").forEach(function(s) { s.classList.remove("selected"); });
+            document.querySelector('#catColorPicker .color-swatch[data-color="#1a73a7"]').classList.add("selected");
+            document.getElementById("categoryModal").classList.add("active");
+        }
+
+        // ====== تعديل فئة ======
+        function openEditCategoryModal(key) {
+            const cat = categories.find(c => c.key === key);
+            if (!cat) return;
+
+            editingCategoryOriginalKey = key;
+            document.getElementById("editCategoryKey").value = key;
+            document.getElementById("catName").value = cat.name;
+            document.getElementById("catKey").value = cat.key;
+            document.getElementById("categoryModalTitle").innerHTML = '<i class="fas fa-edit"></i> تعديل الفئة';
+            document.getElementById("catModalSubmitText").textContent = "تحديث الفئة";
+
+            selectedCatIcon = cat.icon || "fas fa-globe";
+            selectedCatColor = cat.color || "#1a73a7";
+            updateCategoryIconDisplay();
+
+            // Reset color selection
+            document.querySelectorAll("#catColorPicker .color-swatch").forEach(function(s) { s.classList.remove("selected"); });
+            var colorSwatch = document.querySelector('#catColorPicker .color-swatch[data-color="' + selectedCatColor + '"]');
+            if (colorSwatch) colorSwatch.classList.add("selected");
+
+            document.getElementById("categoryModal").classList.add("active");
+        }
+
+        // ====== اختيار لون الفئة ======
+        function selectCategoryColor(el) {
+            document.querySelectorAll("#catColorPicker .color-swatch").forEach(function(s) { s.classList.remove("selected"); });
+            el.classList.add("selected");
+            selectedCatColor = el.dataset.color;
+        }
+
+        // ====== حفظ الفئة ======
+        function handleCategoryFormSubmit(e) {
+            e.preventDefault();
+            var editKey = document.getElementById("editCategoryKey").value;
+            var name = document.getElementById("catName").value.trim();
+            var key = document.getElementById("catKey").value.trim();
+
+            if (!name || !key) {
+                showToast("يرجى ملء جميع الحقول المطلوبة", "error");
+                return;
+            }
+
+            if (editKey) {
+                // تعديل
+                var idx = categories.findIndex(c => c.key === editKey);
+                if (idx !== -1) {
+                    categories[idx].name = name;
+                    categories[idx].key = key;
+                    categories[idx].icon = selectedCatIcon;
+                    categories[idx].color = selectedCatColor;
+
+                    // تحديث الموارد المرتبطة
+                    if (editKey !== key) {
+                        resources.forEach(function(r) {
+                            if (r.categoryKey === editKey) {
+                                r.categoryKey = key;
+                                r.category = name;
+                                r.colorClass = key;
+                                r.color = selectedCatColor;
+                            }
+                        });
+                        saveResources();
+                    } else {
+                        resources.forEach(function(r) {
+                            if (r.categoryKey === key) {
+                                r.category = name;
+                                r.color = selectedCatColor;
+                            }
+                        });
+                        saveResources();
+                    }
+
+                    showToast("تم تحديث الفئة بنجاح", "success");
+                    editingCategoryOriginalKey = null;
+                }
+            } else {
+                // إضافة جديد
+                var exists = categories.find(c => c.key === key);
+                if (exists) {
+                    showToast("معرّف الفئة موجود مسبقاً، يرجى اختيار معرّف آخر", "error");
+                    return;
+                }
+                categories.push({
+                    key: key,
+                    name: name,
+                    icon: selectedCatIcon,
+                    color: selectedCatColor
+                });
+                showToast("تمت إضافة الفئة بنجاح", "success");
+            }
+
+            saveCategories();
+            closeCategoryModal();
+            populateCategoryDropdown();
+            renderCategories();
+            updateStats();
+            renderTable();
+        }
+
+        function closeCategoryModal() {
+            document.getElementById("categoryModal").classList.remove("active");
+            editingCategoryOriginalKey = null;
+        }
+
+        // ====== حذف فئة ======
+        function openDeleteCategoryModal(key) {
+            var cat = categories.find(c => c.key === key);
+            if (!cat) return;
+            deleteCategoryTargetKey = key;
+            document.getElementById("deleteCategoryName").textContent = cat.name;
+            var relatedCount = resources.filter(r => (r.categoryKey || r.colorClass) === key).length;
+            document.getElementById("deleteCategoryWarning").style.display = relatedCount > 0 ? "block" : "none";
+            document.getElementById("deleteCategoryModal").classList.add("active");
+        }
+
+        function confirmDeleteCategory() {
+            if (deleteCategoryTargetKey !== null) {
+                categories = categories.filter(c => c.key !== deleteCategoryTargetKey);
+                saveCategories();
+                showToast("تم حذف الفئة بنجاح", "success");
+                deleteCategoryTargetKey = null;
+                closeDeleteCategoryModal();
+                populateCategoryDropdown();
+                renderCategories();
+                updateStats();
+                renderTable();
+            }
+        }
+
+        function closeDeleteCategoryModal() {
+            document.getElementById("deleteCategoryModal").classList.remove("active");
+        }
+
+        // ====== توليد المفتاح تلقائياً ======
+        function autoGenerateKey() {
+            var name = document.getElementById("catName").value.trim();
+            var keyInput = document.getElementById("catKey");
+            // فقط توليد إذا لم يكن المستخدم يعدل المفتاح يدوياً (أي في وضع الإضافة أو لم يتغير)
+            if (!document.getElementById("editCategoryKey").value) {
+                var key = name.replace(/\s+/g, '-').replace(/[^\u0600-\u06FFa-zA-Z0-9\-]/g, '').toLowerCase();
+                // Map Arabic common chars
+                var map = {'ا':'a','أ':'a','إ':'e','آ':'a','ب':'b','ت':'t','ث':'th','ج':'j','ح':'h','خ':'kh','د':'d','ذ':'dh','ر':'r','ز':'z','س':'s','ش':'sh','ص':'s','ض':'d','ط':'t','ظ':'z','ع':'a','غ':'gh','ف':'f','ق':'q','ك':'k','ل':'l','م':'m','ن':'n','ه':'h','و':'w','ي':'y','ة':'h','ي':'y','ى':'a'};
+                var result = '';
+                for (var i = 0; i < name.length; i++) {
+                    var ch = name[i];
+                    if (map[ch]) result += map[ch];
+                    else if (/[a-zA-Z0-9]/.test(ch)) result += ch.toLowerCase();
+                    else if (ch === ' ' || ch === '-') result += '-';
+                }
+                result = result.replace(/-+/g, '-').replace(/^-|-$/g, '');
+                keyInput.value = result || '';
+            }
+        }
+
+        // ====== الإعدادات ======
+        function loadSettingsForm() {
+            var s = loadSettings();
+            var h = loadHero();
+            document.getElementById("settingsSiteName").value = s.siteName || "";
+            selectedLogoIcon = s.siteLogo || "📚";
+            updateLogoPreview();
+
+            document.getElementById("heroTitle").value = h.title || "";
+            document.getElementById("heroDescription").value = h.description || "";
+            updateHeroCharCount();
+
+            document.getElementById("footerAbout").value = s.footerAbout || "";
+            document.getElementById("footerLine1").value = s.footerLine1 || "";
+            document.getElementById("footerLine2").value = s.footerLine2 || "";
+            updateFooterAboutCharCount();
+        }
+
+        function saveAllSettings() {
+            settings.siteName = document.getElementById("settingsSiteName").value.trim() || "دليلي";
+            settings.siteLogo = selectedLogoIcon;
+            settings.footerAbout = document.getElementById("footerAbout").value.trim();
+            settings.footerLine1 = document.getElementById("footerLine1").value.trim();
+            settings.footerLine2 = document.getElementById("footerLine2").value.trim();
+
+            hero.title = document.getElementById("heroTitle").value.trim();
+            hero.description = document.getElementById("heroDescription").value.trim();
+
+            saveSettings();
+            saveHero();
+            updateHeaderLogo();
+            showToast("تم حفظ جميع الإعدادات بنجاح", "success");
+        }
+
+        function updateHeroCharCount() {
+            var len = (document.getElementById("heroDescription").value || "").length;
+            document.getElementById("heroDescCharCount").textContent = len + " حرف";
+        }
+
+        function updateFooterAboutCharCount() {
+            var len = (document.getElementById("footerAbout").value || "").length;
+            document.getElementById("footerAboutCharCount").textContent = len + " حرف";
         }
 
         // ====== Toast ======
         function showToast(message, type) {
-            const container = document.getElementById("toastContainer");
-            const toast = document.createElement("div");
-            toast.className = "toast" + (type ? " " + type : "");
-            toast.textContent = message;
+            var container = document.getElementById("toastContainer");
+            var toast = document.createElement("div");
+            toast.className = "toast " + (type || "");
+            var icon = type === "success" ? '<i class="fas fa-check-circle"></i> ' : type === "error" ? '<i class="fas fa-exclamation-circle"></i> ' : '';
+            toast.innerHTML = icon + message;
             container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            setTimeout(function() {
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 3000);
         }
 
-        // ====== إغلاق Modal عند النقر على الخلفية ======
-        document.getElementById("resourceModal").addEventListener("click", function(e) {
-            if (e.target === this) closeModal();
-        });
-
-        document.getElementById("deleteModal").addEventListener("click", function(e) {
-            if (e.target === this) closeDeleteModal();
-        });
-
-        // ====== التهيئة ======
-        document.addEventListener("DOMContentLoaded", function() {
-            // التحقق من الجلسة
-            if (sessionStorage.getItem("edu_admin_logged") === "true") {
-                document.getElementById("loginScreen").style.display = "none";
-                document.getElementById("adminPanel").classList.add("active");
-                loadAndRender();
-            }
-
-            // إغلاق Modal بزر Escape
-            document.addEventListener("keydown", function(e) {
-                if (e.key === "Escape") {
-                    closeModal();
-                    closeDeleteModal();
+        // ====== Modal: إغلاق بالنقر على الخلفية ======
+        document.querySelectorAll(".modal-overlay").forEach(function(overlay) {
+            overlay.addEventListener("click", function(e) {
+                if (e.target === overlay) {
+                    overlay.classList.remove("active");
                 }
             });
         });
+
+        // ====== Modal: إغلاق بزر Escape ======
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+                document.querySelectorAll(".modal-overlay.active").forEach(function(overlay) {
+                    overlay.classList.remove("active");
+                });
+            }
+        });
+
+        // ====== التهيئة ======
+        initializeData();
+
+        // ====== التحقق من الجلسة ======
+        if (sessionStorage.getItem("edu_admin_logged") === "true") {
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("adminPanel").classList.add("active");
+            loadAndRender();
+        }
     </script>
 </body>
 </html>

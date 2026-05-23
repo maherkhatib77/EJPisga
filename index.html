@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دليلي - دليلك للموارد التعليمية الرقمية</title>
     <link rel="stylesheet" href="css2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* ====== إعادة تعيين الأنماط الأساسية ====== */
         *, *::before, *::after {
@@ -77,14 +78,22 @@
         }
 
         .logo-icon {
-            width: 42px;
-            height: 42px;
+            width: 50px;
+            height: 50px;
             background: rgba(255,255,255,0.2);
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
         }
 
         .logo-text {
@@ -234,18 +243,15 @@
             white-space: nowrap;
             transition: var(--transition);
             font-family: 'Tajawal', 'Cairo', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
         }
 
         .cat-btn:hover {
             border-color: var(--primary);
             color: var(--primary);
             background: var(--primary-light);
-        }
-
-        .cat-btn.active {
-            background: var(--primary);
-            color: var(--white);
-            border-color: var(--primary);
         }
 
         /* ====== إحصائيات ====== */
@@ -295,11 +301,16 @@
             border-radius: var(--radius-lg);
             border: 1.5px solid var(--border);
             overflow: hidden;
-            transition: var(--transition);
+            transition: height 0.4s ease, box-shadow 0.3s ease, transform 0.3s ease;
             display: flex;
             flex-direction: column;
             cursor: pointer;
             position: relative;
+            height: 380px;
+        }
+
+        .resource-card.expanded {
+            height: auto;
         }
 
         .resource-card:hover {
@@ -311,6 +322,7 @@
         .card-color-bar {
             height: 5px;
             width: 100%;
+            flex-shrink: 0;
         }
 
         .card-body {
@@ -318,6 +330,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         .card-header {
@@ -325,6 +338,7 @@
             align-items: flex-start;
             gap: 1rem;
             margin-bottom: 1rem;
+            flex-shrink: 0;
         }
 
         .card-icon {
@@ -363,13 +377,78 @@
             font-weight: 600;
         }
 
+        /* ====== وصف البطاقة مع تدرج ====== */
+        .card-description-wrapper {
+            position: relative;
+            flex: 1;
+            overflow: hidden;
+        }
+
         .card-description {
-            font-family: 'Tajawal', 'Cairo', sans-serif;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
             color: var(--text-medium);
             font-size: 0.92rem;
             line-height: 1.8;
-            margin-bottom: 1.25rem;
-            flex: 1;
+        }
+
+        /* Gradient fade overlay */
+        .card-description-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .resource-card.expanded .card-description-wrapper::after {
+            opacity: 0;
+        }
+
+        .resource-card.expanded .card-description {
+            -webkit-line-clamp: unset;
+            display: block;
+        }
+
+        .resource-card.no-long-text .card-description-wrapper::after {
+            display: none;
+        }
+
+        /* ====== Expand indicator ====== */
+        .card-expand-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.7rem;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .card-expand-indicator:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .resource-card.expanded .card-expand-indicator {
+            transform: translateX(-50%) rotate(180deg);
+            bottom: 8px;
         }
 
         .card-footer {
@@ -378,6 +457,8 @@
             justify-content: space-between;
             padding-top: 1rem;
             border-top: 1px solid var(--border);
+            margin-top: auto;
+            flex-shrink: 0;
         }
 
         .card-link {
@@ -397,9 +478,8 @@
             gap: 0.6rem;
         }
 
-        .card-link svg {
-            width: 16px;
-            height: 16px;
+        .card-link i {
+            font-size: 0.85rem;
             transition: var(--transition);
         }
 
@@ -478,32 +558,6 @@
             line-height: 2;
         }
 
-        /* ====== ألوان الفئات ====== */
-        .cat-websites { background: var(--primary); color: var(--white); }
-        .cat-websites-light { background: var(--primary-light); color: var(--primary); }
-
-        .cat-youtube { background: #dc2626; color: var(--white); }
-        .cat-youtube-light { background: #fef2f2; color: #dc2626; }
-
-        .cat-pdf { background: #ea580c; color: var(--white); }
-        .cat-pdf-light { background: #fff7ed; color: #ea580c; }
-
-        .cat-platforms { background: var(--secondary); color: var(--white); }
-        .cat-platforms-light { background: var(--secondary-light); color: var(--secondary); }
-
-        .cat-tools { background: #7c3aed; color: var(--white); }
-        .cat-tools-light { background: #f5f3ff; color: #7c3aed; }
-
-        .cat-files { background: var(--accent); color: var(--white); }
-        .cat-files-light { background: var(--accent-light); color: #b45309; }
-
-        .color-websites { background: var(--primary); }
-        .color-youtube { background: #dc2626; }
-        .color-pdf { background: #ea580c; }
-        .color-platforms { background: var(--secondary); }
-        .color-tools { background: #7c3aed; }
-        .color-files { background: var(--accent); }
-
         /* ====== Toast إشعار ====== */
         .toast-container {
             position: fixed;
@@ -538,6 +592,7 @@
         @media (max-width: 768px) {
             .header { padding: 0 1rem; }
             .header-inner { height: 60px; }
+            .logo-icon { width: 42px; height: 42px; font-size: 1.3rem; }
             .logo-text { font-size: 1.3rem; }
             .btn-admin span { display: none; }
             .btn-admin { padding: 0.55rem 0.75rem; }
@@ -557,6 +612,10 @@
                 gap: 1rem;
             }
 
+            .resource-card {
+                height: 360px;
+            }
+
             .footer { padding: 2rem 1.5rem 1rem; }
             .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
         }
@@ -565,6 +624,9 @@
             .hero h1 { font-size: 1.45rem; }
             .search-input { font-size: 0.95rem; padding: 0.85rem 2.5rem 0.85rem 0.85rem; }
             .card-body { padding: 1.2rem; }
+            .resource-card {
+                height: 340px;
+            }
         }
 
         /* ====== Scrollbar مخصص ====== */
@@ -580,12 +642,12 @@
     <header class="header">
         <div class="header-inner">
             <a href="index.html" class="logo">
-                <div class="logo-icon">📚</div>
-                <div class="logo-text"><span>دليلي</span></div>
+                <div class="logo-icon" id="headerLogoIcon">📚</div>
+                <div class="logo-text"><span id="headerSiteName">دليلي</span></div>
             </a>
             <div class="header-actions">
                 <a href="admin.html" class="btn-admin">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <i class="fas fa-cog"></i>
                     <span>لوحة الإدارة</span>
                 </a>
             </div>
@@ -595,8 +657,8 @@
     <!-- ====== قسم البطل والبحث ====== -->
     <section class="hero">
         <div class="hero-inner">
-            <h1>🌍 دليلك الشامل للموارد التعليمية الرقمية</h1>
-            <p>دليلي هو وجهتك الأولى لعالم الموارد التعليمية الرقمية، حيث يجمع لك بين أفضل المواقع التربوية، والملفات التعليمية، والقنوات المتخصصة، والأدوات التفاعلية، في مكان واحد ينظمه الذكاء البشري ويدعمه الذكاء الاصطناعي. سواء كنت طالباً تبحث عن شرح وافٍ، أو معلماً يسعى إلى مصدر موثوق، أو ولي أمر يريد توجيه أبنائه نحو المحتوى الهادف، فإن دليلي يصحَبُك بخطواتٍ مدروسة إلى كنوز المعرفة المنظمة والمُجربة. نؤمن بأن التعليم حقٌ للجميع، وأن الوصول إلى المعلومة الصحيحة يجب أن يكون سهلاً، سريعاً، وممتعاً. لهذا، نبني جسوراً بينك وبين أجمل ما أنتجته العقول في عالم التربية والتعليم.</p>
+            <h1 id="heroTitle">🌍 دليلك الشامل للموارد التعليمية الرقمية</h1>
+            <p id="heroDescription">دليلي هو وجهتك الأولى لعالم الموارد التعليمية الرقمية، حيث يجمع لك بين أفضل المواقع التربوية، والملفات التعليمية، والقنوات المتخصصة، والأدوات التفاعلية، في مكان واحد ينظمه الذكاء البشري ويدعمه الذكاء الاصطناعي. سواء كنت طالباً تبحث عن شرح وافٍ، أو معلماً يسعى إلى مصدر موثوق، أو ولي أمر يريد توجيه أبنائه نحو المحتوى الهادف، فإن دليلي يصحَبُك بخطواتٍ مدروسة إلى كنوز المعرفة المنظمة والمُجربة. نؤمن بأن التعليم حقٌ للجميع، وأن الوصول إلى المعلومة الصحيحة يجب أن يكون سهلاً، سريعاً، وممتعاً. لهذا، نبني جسوراً بينك وبين أجمل ما أنتجته العقول في عالم التربية والتعليم.</p>
             <div class="search-container">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                 <input type="text" class="search-input" id="searchInput" placeholder="ابحث عن مورد تعليمي..." oninput="handleSearch()">
@@ -635,15 +697,14 @@
         <div class="footer-inner">
             <div class="footer-grid">
                 <div class="footer-section">
-                    <h4>📚 عن دليلي</h4>
-                    <p>دليلي منصة رائدة لنشر المعرفة الرقمية وتعزيز ثقافة الذكاء الاصطناعي في المجال التعليمي، تجمع لك أفضل الموارد التعليمية في مكان واحد.</p>
+                    <h4 id="footerAboutTitle">📚 عن دليلي</h4>
+                    <p id="footerAboutText">دليلي منصة رائدة لنشر المعرفة الرقمية وتعزيز ثقافة الذكاء الاصطناعي في المجال التعليمي، تجمع لك أفضل الموارد التعليمية في مكان واحد.</p>
                 </div>
                 <div class="footer-section">
                     <h4>📂 الفئات المتاحة</h4>
-                    <a href="#" onclick="filterByCategory('websites'); return false;">مواقع تربوية</a>
-                    <a href="#" onclick="filterByCategory('youtube'); return false;">قنوات يوتيوب تعليمية</a>
-                    <a href="#" onclick="filterByCategory('platforms'); return false;">منصات تدريس</a>
-                    <a href="#" onclick="filterByCategory('tools'); return false;">أدوات تعليمية</a>
+                    <div id="footerCategories">
+                        <!-- يتم إنشاؤها ديناميكياً -->
+                    </div>
                 </div>
                 <div class="footer-section">
                     <h4>🔗 روابط مفيدة</h4>
@@ -653,8 +714,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>دليلي منصة رائدة لنشر المعرفة الرقمية وتعزيز ثقافة الذكاء الاصطناعي</p>
-                <p>© 2026 جميع الحقوق محفوظة لـ مركز تطوير طواقم التربية والتعليم</p>
+                <p id="footerLine1">دليلي منصة رائدة لنشر المعرفة الرقمية وتعزيز ثقافة الذكاء الاصطناعي</p>
+                <p id="footerLine2">© 2026 جميع الحقوق محفوظة لـ مركز تطوير طواقم التربية والتعليم</p>
             </div>
         </div>
     </footer>
@@ -663,122 +724,288 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // ====== البيانات الافتراضية (8 موارد تعليمية نموذجية) ======
-        const defaultResources = [
-            {
-                id: 1,
-                name: "منصة إدراك",
-                category: "منصات تدريس",
-                description: "منصة تعليمية سعودية تقدم مناهج رقمية تفاعلية لجميع المراحل الدراسية مع محتوى متنوع يشمل فيديوهات واختبارات ودروس تفاعلية.",
-                url: "https://www.edraak.org",
-                icon: "🎓",
-                colorClass: "platforms"
-            },
-            {
-                id: 2,
-                name: "قناة تعليمية - كورسات",
-                category: "قنوات يوتيوب",
-                description: "قناة يوتيوب تعليمية تقدم شروحات مبسطة في البرمجة والتصميم والتقنية باللغة العربية مع مشاريع تطبيقية حقيقية.",
-                url: "https://www.youtube.com",
-                icon: "🎬",
-                colorClass: "youtube"
-            },
-            {
-                id: 3,
-                name: "وزارة التعليم السعودية",
-                category: "مواقع تربوية",
-                description: "الموقع الرسمي لوزارة التعليم السعودية، يحتوي على الأخبار التعليمية والخدمات الإلكترونية والمناهج الدراسية ونتائج الطلاب.",
-                url: "https://www.moe.gov.sa",
-                icon: "🏛️",
-                colorClass: "websites"
-            },
-            {
-                id: 4,
-                name: "مكتبة الكتب التعليمية PDF",
-                category: "كتب PDF",
-                description: "مكتبة إلكترونية مجانية تضم آلاف الكتب والمراجع التعليمية بصيغة PDF في مختلف التخصصات والمراحل الدراسية.",
-                url: "https://www.pdfdrive.com",
-                icon: "📖",
-                colorClass: "pdf"
-            },
-            {
-                id: 5,
-                name: "أداة Quizizz للاختبارات",
-                category: "أدوات تعليمية",
-                description: "منصة تفاعلية لإنشاء وإجراء الاختبارات والاختبارات السريعة بطريقة ممتعة ومسابقات بين الطلاب مع نتائج فورية.",
-                url: "https://quizizz.com",
-                icon: "📝",
-                colorClass: "tools"
-            },
-            {
-                id: 6,
-                name: "مدرستي - المنصة الوطنية",
-                category: "منصات تدريس",
-                description: "المنصة التعليمية الوطنية التي توفر الدروس والمحتوى التعليمي للطلاب في جميع المراحل مع متابعة مستمرة من المعلمين.",
-                url: "https://my.moe.gov.sa",
-                icon: "🏫",
-                colorClass: "platforms"
-            },
-            {
-                id: 7,
-                name: "قناة دار الفرقان",
-                category: "قنوات يوتيوب",
-                description: "قناة تعليمية متخصصة في العلوم والرياضيات تقدم شروحات واضحة ومبسطة للطلاب في المرحلة الثانوية والجامعية.",
-                url: "https://www.youtube.com",
-                icon: "🔬",
-                colorClass: "youtube"
-            },
-            {
-                id: 8,
-                name: "Canva للتعليم",
-                category: "أدوات تعليمية",
-                description: "أداة تصميم مجانية مخصصة للمعلمين والطلاب لإنشاء عروض تقديمية وملصقات تعليمية ونشاطات فصلية إبداعية.",
-                url: "https://www.canva.com/education",
-                icon: "🎨",
-                colorClass: "tools"
+        // ====== دالة عرض الأيقونة (emoji أو Font Awesome) ======
+        function renderIcon(iconStr) {
+            if (!iconStr) return "📌";
+            if (iconStr.indexOf("fa") === 0 || iconStr.indexOf("fa-") !== -1) {
+                return '<i class="' + iconStr + '"></i>';
             }
+            return iconStr; // emoji
+        }
+
+        // ====== البيانات الافتراضية ======
+        const defaultCategories = [
+            { key: "websites", name: "مواقع تربوية", icon: "fas fa-globe", color: "#1a73a7" },
+            { key: "youtube", name: "قنوات يوتيوب", icon: "fab fa-youtube", color: "#dc2626" },
+            { key: "pdf", name: "كتب PDF", icon: "fas fa-file-pdf", color: "#ea580c" },
+            { key: "platforms", name: "منصات تدريس", icon: "fas fa-graduation-cap", color: "#059669" },
+            { key: "tools", name: "أدوات تعليمية", icon: "fas fa-tools", color: "#7c3aed" }
         ];
 
-        // ====== الفئات المتاحة ======
-        const categories = [
-            { name: "الكل", key: "all", icon: "📋" },
-            { name: "مواقع تربوية", key: "websites", icon: "🌐" },
-            { name: "قنوات يوتيوب", key: "youtube", icon: "🎬" },
-            { name: "كتب PDF", key: "pdf", icon: "📖" },
-            { name: "منصات تدريس", key: "platforms", icon: "🎓" },
-            { name: "أدوات تعليمية", key: "tools", icon: "🛠️" }
+        const defaultSettings = {
+            siteName: "دليلي",
+            siteLogo: "📚",
+            footerAbout: "دليلي منصة رائدة لنشر المعرفة الرقمية وتعزيز ثقافة الذكاء الاصطناعي في المجال التعليمي، تجمع لك أفضل الموارد التعليمية في مكان واحد.",
+            footerLine1: "دليلي منصة رائدة لنشر المعرفة الرقمية وتعزيز ثقافة الذكاء الاصطناعي",
+            footerLine2: "© 2026 جميع الحقوق محفوظة لـ مركز تطوير طواقم التربية والتعليم"
+        };
+
+        const defaultHero = {
+            title: "🌍 دليلك الشامل للموارد التعليمية الرقمية",
+            description: "دليلي هو وجهتك الأولى لعالم الموارد التعليمية الرقمية، حيث يجمع لك بين أفضل المواقع التربوية، والملفات التعليمية، والقنوات المتخصصة، والأدوات التفاعلية، في مكان واحد ينظمه الذكاء البشري ويدعمه الذكاء الاصطناعي. سواء كنت طالباً تبحث عن شرح وافٍ، أو معلماً يسعى إلى مصدر موثوق، أو ولي أمر يريد توجيه أبنائه نحو المحتوى الهادف، فإن دليلي يصحَبُك بخطواتٍ مدروسة إلى كنوز المعرفة المنظمة والمُجربة. نؤمن بأن التعليم حقٌ للجميع، وأن الوصول إلى المعلومة الصحيحة يجب أن يكون سهلاً، سريعاً، وممتعاً. لهذا، نبني جسوراً بينك وبين أجمل ما أنتجته العقول في عالم التربية والتعليم."
+        };
+
+        const defaultResources = [
+            { id: 1, name: "منصة إدراك", category: "منصات تدريس", categoryKey: "platforms", description: "منصة تعليمية سعودية تقدم مناهج رقمية تفاعلية لجميع المراحل الدراسية مع محتوى متنوع يشمل فيديوهات واختبارات ودروس تفاعلية.", url: "https://www.edraak.org", icon: "fas fa-graduation-cap", color: "#059669" },
+            { id: 2, name: "قناة تعليمية - كورسات", category: "قنوات يوتيوب", categoryKey: "youtube", description: "قناة يوتيوب تعليمية تقدم شروحات مبسطة في البرمجة والتصميم والتقنية باللغة العربية مع مشاريع تطبيقية حقيقية.", url: "https://www.youtube.com", icon: "fab fa-youtube", color: "#dc2626" },
+            { id: 3, name: "وزارة التعليم السعودية", category: "مواقع تربوية", categoryKey: "websites", description: "الموقع الرسمي لوزارة التعليم السعودية، يحتوي على الأخبار التعليمية والخدمات الإلكترونية والمناهج الدراسية ونتائج الطلاب.", url: "https://www.moe.gov.sa", icon: "fas fa-landmark", color: "#1a73a7" },
+            { id: 4, name: "مكتبة الكتب التعليمية PDF", category: "كتب PDF", categoryKey: "pdf", description: "مكتبة إلكترونية مجانية تضم آلاف الكتب والمراجع التعليمية بصيغة PDF في مختلف التخصصات والمراحل الدراسية.", url: "https://www.pdfdrive.com", icon: "fas fa-file-pdf", color: "#ea580c" },
+            { id: 5, name: "أداة Quizizz للاختبارات", category: "أدوات تعليمية", categoryKey: "tools", description: "منصة تفاعلية لإنشاء وإجراء الاختبارات والاختبارات السريعة بطريقة ممتعة ومسابقات بين الطلاب مع نتائج فورية.", url: "https://quizizz.com", icon: "fas fa-question-circle", color: "#7c3aed" },
+            { id: 6, name: "مدرستي - المنصة الوطنية", category: "منصات تدريس", categoryKey: "platforms", description: "المنصة التعليمية الوطنية التي توفر الدروس والمحتوى التعليمي للطلاب في جميع المراحل مع متابعة مستمرة من المعلمين.", url: "https://my.moe.gov.sa", icon: "fas fa-school", color: "#059669" },
+            { id: 7, name: "قناة دار الفرقان", category: "قنوات يوتيوب", categoryKey: "youtube", description: "قناة تعليمية متخصصة في العلوم والرياضيات تقدم شروحات واضحة ومبسطة للطلاب في المرحلة الثانوية والجامعية.", url: "https://www.youtube.com", icon: "fas fa-microscope", color: "#dc2626" },
+            { id: 8, name: "Canva للتعليم", category: "أدوات تعليمية", categoryKey: "tools", description: "أداة تصميم مجانية مخصصة للمعلمين والطلاب لإنشاء عروض تقديمية وملصقات تعليمية ونشاطات فصلية إبداعية.", url: "https://www.canva.com/education", icon: "fas fa-palette", color: "#7c3aed" }
         ];
 
         // ====== المتغيرات العامة ======
         let resources = [];
+        let categories = [];
+        let settings = {};
+        let hero = {};
         let activeCategory = "all";
         let searchQuery = "";
 
-        // ====== تحميل البيانات ======
-        function loadResources() {
-            const stored = localStorage.getItem("edu_resources");
-            if (stored) {
-                resources = JSON.parse(stored);
+        // ====== دالة إنشاء لون خفيف ======
+        function lightenColor(hex, opacity) {
+            if (opacity === undefined) opacity = 0.12;
+            var r = parseInt(hex.slice(1, 3), 16);
+            var g = parseInt(hex.slice(3, 5), 16);
+            var b = parseInt(hex.slice(5, 7), 16);
+            return "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")";
+        }
+
+        // ====== تحميل جميع البيانات ======
+        function loadAllData() {
+            // تحميل الموارد
+            var storedResources = localStorage.getItem("edu_resources");
+            if (storedResources) {
+                resources = JSON.parse(storedResources);
             } else {
-                resources = [...defaultResources];
+                resources = defaultResources.slice();
                 localStorage.setItem("edu_resources", JSON.stringify(resources));
             }
+
+            // تحميل الفئات
+            var storedCategories = localStorage.getItem("edu_categories");
+            if (storedCategories) {
+                categories = JSON.parse(storedCategories);
+            } else {
+                categories = defaultCategories.slice();
+                localStorage.setItem("edu_categories", JSON.stringify(categories));
+            }
+
+            // تحميل الإعدادات
+            var storedSettings = localStorage.getItem("edu_settings");
+            if (storedSettings) {
+                settings = JSON.parse(storedSettings);
+            } else {
+                settings = Object.assign({}, defaultSettings);
+                localStorage.setItem("edu_settings", JSON.stringify(settings));
+            }
+
+            // تحميل بيانات البطل
+            var storedHero = localStorage.getItem("edu_hero");
+            if (storedHero) {
+                hero = JSON.parse(storedHero);
+            } else {
+                hero = Object.assign({}, defaultHero);
+                localStorage.setItem("edu_hero", JSON.stringify(hero));
+            }
+
+            // هجرة البيانات القديمة: إضافة categoryKey و color للموارد القديمة
+            try {
+                var migrated = false;
+                resources.forEach(function(r) {
+                    if (!r.categoryKey && r.colorClass) {
+                        r.categoryKey = r.colorClass;
+                        migrated = true;
+                    }
+                    if (!r.color) {
+                        var cat = categories.find(function(c) { return c.key === (r.categoryKey || r.colorClass); });
+                        r.color = cat ? cat.color : "#1a73a7";
+                        migrated = true;
+                    }
+                    if (!r.category && r.categoryKey) {
+                        var cat2 = categories.find(function(c) { return c.key === r.categoryKey; });
+                        if (cat2) { r.category = cat2.name; migrated = true; }
+                    }
+                });
+                if (migrated) {
+                    localStorage.setItem("edu_resources", JSON.stringify(resources));
+                }
+            } catch(e) {}
         }
 
-        // ====== حفظ البيانات ======
-        function saveResources() {
-            localStorage.setItem("edu_resources", JSON.stringify(resources));
+        // ====== عرض الرأس (يدعم الصورة والإيموجي) ======
+        function renderHeader() {
+            var logoEl = document.getElementById("headerLogoIcon");
+            var logoVal = settings.siteLogo || "📚";
+
+            // Check if logo is an image (base64 or URL)
+            if (logoVal.indexOf("data:image") === 0 || logoVal.indexOf("http") === 0) {
+                logoEl.innerHTML = '<img src="' + logoVal + '" alt="' + (settings.siteName || "دليلي") + '">';
+            } else {
+                logoEl.textContent = logoVal;
+            }
+
+            document.getElementById("headerSiteName").textContent = settings.siteName || "دليلي";
+            document.title = (settings.siteName || "دليلي") + " - دليلك للموارد التعليمية الرقمية";
         }
 
-        // ====== إنشاء أزرار الفئات ======
+        // ====== عرض قسم البطل ======
+        function renderHero() {
+            document.getElementById("heroTitle").textContent = hero.title || defaultHero.title;
+            document.getElementById("heroDescription").textContent = hero.description || defaultHero.description;
+        }
+
+        // ====== عرض أزرار الفئات ======
         function renderCategories() {
-            const container = document.getElementById("categoriesContainer");
-            container.innerHTML = categories.map(cat => `
-                <button class="cat-btn ${activeCategory === cat.key ? 'active' : ''}" 
-                        onclick="filterByCategory('${cat.key}')">
-                    ${cat.icon} ${cat.name}
-                </button>
-            `).join("");
+            var container = document.getElementById("categoriesContainer");
+            var html = '<button class="cat-btn' + (activeCategory === "all" ? ' active' : '') + '" ' +
+                'onclick="filterByCategory(\'all\')" ' +
+                'style="' + (activeCategory === "all" ? 'background: var(--primary); color: var(--white); border-color: var(--primary);' : '') + '">' +
+                '<i class="fas fa-layer-group"></i> الكل</button>';
+
+            for (var i = 0; i < categories.length; i++) {
+                var cat = categories[i];
+                var isActive = activeCategory === cat.key;
+                var activeStyle = isActive
+                    ? 'background: ' + cat.color + '; color: white; border-color: ' + cat.color + ';'
+                    : '';
+                var catIconHtml = renderIcon(cat.icon);
+                html += '<button class="cat-btn' + (isActive ? ' active' : '') + '" ' +
+                    'onclick="filterByCategory(\'' + cat.key + '\')" ' +
+                    'style="' + activeStyle + '">' +
+                    catIconHtml + ' ' + cat.name + '</button>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        // ====== عرض الإحصائيات ======
+        function renderStats() {
+            document.getElementById("totalCount").textContent = resources.length;
+            document.getElementById("categoryCount").textContent = categories.length;
+        }
+
+        // ====== عرض البطاقات ======
+        function renderCards() {
+            var grid = document.getElementById("cardsGrid");
+            var filtered = resources.slice();
+
+            // فلترة حسب الفئة
+            if (activeCategory !== "all") {
+                filtered = filtered.filter(function(r) {
+                    return r.categoryKey === activeCategory;
+                });
+            }
+
+            // فلترة حسب البحث
+            if (searchQuery) {
+                filtered = filtered.filter(function(r) {
+                    return r.name.toLowerCase().indexOf(searchQuery) !== -1 ||
+                        r.category.toLowerCase().indexOf(searchQuery) !== -1 ||
+                        r.description.toLowerCase().indexOf(searchQuery) !== -1;
+                });
+            }
+
+            // تحديث الإحصائيات
+            renderStats();
+
+            // عرض حالة عدم وجود نتائج
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="no-results">' +
+                    '<div class="no-results-icon"><i class="fas fa-search"></i></div>' +
+                    '<h3>لا توجد نتائج</h3>' +
+                    '<p>جرب البحث بكلمات مختلفة أو اختر فئة أخرى</p>' +
+                    '</div>';
+                return;
+            }
+
+            // إنشاء البطاقات
+            var html = '';
+            for (var i = 0; i < filtered.length; i++) {
+                var resource = filtered[i];
+                var color = resource.color || "#1a73a7";
+                var lightBg = lightenColor(color, 0.12);
+                var iconHtml = renderIcon(resource.icon);
+                var descText = resource.description || "";
+                var hasLongText = descText.length > 80;
+                var noLongClass = hasLongText ? '' : ' no-long-text';
+
+                html += '<div class="resource-card' + noLongClass + '" data-card-id="' + resource.id + '">' +
+                    '<div class="card-color-bar" style="background: ' + color + ';"></div>' +
+                    '<div class="card-body">' +
+                    '<div class="card-header" onclick="window.open(\'' + resource.url + '\', \'_blank\')">' +
+                    '<div class="card-icon" style="background: ' + color + '; color: white;">' + iconHtml + '</div>' +
+                    '<div class="card-title-group">' +
+                    '<h3 class="card-title">' + resource.name + '</h3>' +
+                    '<span class="card-category-badge" style="background: ' + lightBg + '; color: ' + color + ';">' + resource.category + '</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="card-description-wrapper" onclick="event.stopPropagation(); toggleCard(' + resource.id + ')">' +
+                    '<p class="card-description">' + descText + '</p>' +
+                    '</div>' +
+                    (hasLongText ? '<div class="card-expand-indicator" onclick="event.stopPropagation(); toggleCard(' + resource.id + ')"><i class="fas fa-chevron-down"></i></div>' : '') +
+                    '<div class="card-footer">' +
+                    '<a href="' + resource.url + '" target="_blank" rel="noopener noreferrer" class="card-link" onclick="event.stopPropagation()">' +
+                    'زيارة الموقع ' +
+                    '<i class="fas fa-external-link-alt"></i>' +
+                    '</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+            }
+
+            grid.innerHTML = html;
+        }
+
+        // ====== عرض التذييل ======
+        function renderFooter() {
+            // عن الموقع
+            var logoVal = settings.siteLogo || "📚";
+            var logoDisplay = renderIcon(logoVal);
+            document.getElementById("footerAboutTitle").innerHTML = logoDisplay + " عن " + (settings.siteName || "دليلي");
+            document.getElementById("footerAboutText").textContent = settings.footerAbout || defaultSettings.footerAbout;
+
+            // فئات التذييل
+            var footerCatsHtml = '';
+            for (var i = 0; i < categories.length; i++) {
+                var cat = categories[i];
+                var catIconHtml = renderIcon(cat.icon);
+                footerCatsHtml += '<a href="#" onclick="filterByCategory(\'' + cat.key + '\'); window.scrollTo({top: document.getElementById(\'categoriesContainer\').offsetTop - 80, behavior: \'smooth\'}); return false;">' +
+                    catIconHtml + ' ' + cat.name + '</a>';
+            }
+            document.getElementById("footerCategories").innerHTML = footerCatsHtml;
+
+            // أسفل التذييل
+            document.getElementById("footerLine1").textContent = settings.footerLine1 || defaultSettings.footerLine1;
+            document.getElementById("footerLine2").textContent = settings.footerLine2 || defaultSettings.footerLine2;
+        }
+
+        // ====== عرض كل شيء ======
+        function renderAll() {
+            renderHeader();
+            renderHero();
+            renderCategories();
+            renderStats();
+            renderCards();
+            renderFooter();
+        }
+
+        // ====== معالجة البحث ======
+        function handleSearch() {
+            searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
+            renderCards();
         }
 
         // ====== فلترة حسب الفئة ======
@@ -788,101 +1015,36 @@
             renderCards();
         }
 
-        // ====== معالجة البحث ======
-        function handleSearch() {
-            searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
-            renderCards();
-        }
-
-        // ====== إنشاء البطاقات ======
-        function renderCards() {
-            const grid = document.getElementById("cardsGrid");
-            let filtered = resources;
-
-            // فلترة حسب الفئة
-            if (activeCategory !== "all") {
-                filtered = filtered.filter(r => r.colorClass === activeCategory);
-            }
-
-            // فلترة حسب البحث
-            if (searchQuery) {
-                filtered = filtered.filter(r =>
-                    r.name.toLowerCase().includes(searchQuery) ||
-                    r.category.toLowerCase().includes(searchQuery) ||
-                    r.description.toLowerCase().includes(searchQuery)
-                );
-            }
-
-            // تحديث الإحصائيات
-            document.getElementById("totalCount").textContent = resources.length;
-            const uniqueCategories = [...new Set(resources.map(r => r.category))];
-            document.getElementById("categoryCount").textContent = uniqueCategories.length;
-
-            // عرض النتائج
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="no-results">
-                        <div class="no-results-icon">🔍</div>
-                        <h3>لا توجد نتائج</h3>
-                        <p>جرب البحث بكلمات مختلفة أو اختر فئة أخرى</p>
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = filtered.map(resource => `
-                <div class="resource-card" onclick="window.open('${resource.url}', '_blank')">
-                    <div class="card-color-bar color-${resource.colorClass}"></div>
-                    <div class="card-body">
-                        <div class="card-header">
-                            <div class="card-icon cat-${resource.colorClass}">
-                                ${resource.icon}
-                            </div>
-                            <div class="card-title-group">
-                                <h3 class="card-title">${resource.name}</h3>
-                                <span class="card-category-badge cat-${resource.colorClass}-light">
-                                    ${resource.category}
-                                </span>
-                            </div>
-                        </div>
-                        <p class="card-description">${resource.description}</p>
-                        <div class="card-footer">
-                            <a href="${resource.url}" target="_blank" rel="noopener noreferrer" class="card-link" onclick="event.stopPropagation()">
-                                زيارة الموقع
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                            </a>
-                            <span style="color: var(--text-light); font-size: 0.8rem;">↗ opens in new tab</span>
-                        </div>
-                    </div>
-                </div>
-            `).join("");
+        // ====== توسيع/طي البطاقة (بالنقر على الوصف) ======
+        function toggleCard(id) {
+            var card = document.querySelector('[data-card-id="' + id + '"]');
+            if (!card) return;
+            card.classList.toggle('expanded');
         }
 
         // ====== إشعار Toast ======
         function showToast(message) {
-            const container = document.getElementById("toastContainer");
-            const toast = document.createElement("div");
+            var container = document.getElementById("toastContainer");
+            var toast = document.createElement("div");
             toast.className = "toast";
             toast.textContent = message;
             container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            setTimeout(function() {
+                if (toast.parentNode) toast.remove();
+            }, 3000);
         }
 
         // ====== الاستماع لتغييرات localStorage ======
         window.addEventListener("storage", function(e) {
-            if (e.key === "edu_resources") {
-                loadResources();
-                renderCards();
-                showToast("تم تحديث الموارد تلقائياً ✅");
+            if (e.key === "edu_resources" || e.key === "edu_categories" || e.key === "edu_settings" || e.key === "edu_hero") {
+                loadAllData();
+                renderAll();
             }
         });
 
-        // ====== التهيئة ======
-        document.addEventListener("DOMContentLoaded", function() {
-            loadResources();
-            renderCategories();
-            renderCards();
-        });
+        // ====== تهيئة التطبيق ======
+        loadAllData();
+        renderAll();
     </script>
 </body>
 </html>
