@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليلي - دليلك للموارد التعليمية الرقمية</title>
+    <link rel="stylesheet" href="css2.css">
+    <style>
+        /* ====== إعادة تعيين الأنماط الأساسية ====== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a73a7;
+            --primary-dark: #145a84;
+            --primary-light: #e0f2fe;
+            --secondary: #059669;
+            --secondary-dark: #047857;
+            --secondary-light: #d1fae5;
+            --accent: #f59e0b;
+            --accent-light: #fef3c7;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --text-dark: #1e293b;
+            --text-medium: #475569;
+            --text-light: #94a3b8;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Cairo', 'Roboto', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.8;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ====== الرأس (Header) ====== */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--white);
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .logo-text {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-text span {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-admin {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1.2rem;
+            background: rgba(255,255,255,0.15);
+            border: 1.5px solid rgba(255,255,255,0.3);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+        }
+
+        .btn-admin:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-1px);
+        }
+
+        /* ====== قسم البطل (Hero Section) ====== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
+            padding: 3.5rem 2rem 3rem;
+            text-align: center;
+        }
+
+        .hero-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            line-height: 1.4;
+        }
+
+        .hero p {
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            margin-bottom: 2rem;
+            line-height: 2;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        /* ====== شريط البحث ====== */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-container svg {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 22px;
+            height: 22px;
+            color: var(--text-light);
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1rem;
+            font-size: 1.05rem;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            background: var(--white);
+            color: var(--text-dark);
+            transition: var(--transition);
+            outline: none;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(26, 115, 167, 0.12);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-light);
+        }
+
+        /* ====== قسم الفئات ====== */
+        .categories-section {
+            padding: 1.5rem 2rem 0;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .categories-scroll {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .categories-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .categories-scroll::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .cat-btn {
+            padding: 0.5rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            background: var(--white);
+            color: var(--text-medium);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+        }
+
+        .cat-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .cat-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        /* ====== إحصائيات ====== */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem 2rem;
+            max-width: 1280px;
+            margin: 1rem auto 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-medium);
+        }
+
+        .stat-number {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* ====== شبكة البطاقات ====== */
+        .main-content {
+            flex: 1;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* ====== بطاقة المورد ====== */
+        .resource-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            border: 1.5px solid var(--border);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+
+        .card-color-bar {
+            height: 5px;
+            width: 100%;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            color: var(--white);
+        }
+
+        .card-title-group {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-title {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.35rem;
+            line-height: 1.4;
+        }
+
+        .card-category-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.2rem 0.65rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .card-description {
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            color: var(--text-medium);
+            font-size: 0.92rem;
+            line-height: 1.8;
+            margin-bottom: 1.25rem;
+            flex: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+        }
+
+        .card-link:hover {
+            color: var(--primary-dark);
+            gap: 0.6rem;
+        }
+
+        .card-link svg {
+            width: 16px;
+            height: 16px;
+            transition: var(--transition);
+        }
+
+        /* ====== حالة عدم وجود نتائج ====== */
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            grid-column: 1 / -1;
+        }
+
+        .no-results-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .no-results h3 {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .no-results p {
+            color: var(--text-medium);
+            font-size: 1rem;
+        }
+
+        /* ====== التذييل (Footer) ====== */
+        .footer {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #0f4a6e 100%);
+            color: rgba(255,255,255,0.85);
+            padding: 2.5rem 2rem 1.5rem;
+            margin-top: auto;
+        }
+
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--white);
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 2;
+        }
+
+        /* ====== ألوان الفئات ====== */
+        .cat-websites { background: var(--primary); color: var(--white); }
+        .cat-websites-light { background: var(--primary-light); color: var(--primary); }
+
+        .cat-youtube { background: #dc2626; color: var(--white); }
+        .cat-youtube-light { background: #fef2f2; color: #dc2626; }
+
+        .cat-pdf { background: #ea580c; color: var(--white); }
+        .cat-pdf-light { background: #fff7ed; color: #ea580c; }
+
+        .cat-platforms { background: var(--secondary); color: var(--white); }
+        .cat-platforms-light { background: var(--secondary-light); color: var(--secondary); }
+
+        .cat-tools { background: #7c3aed; color: var(--white); }
+        .cat-tools-light { background: #f5f3ff; color: #7c3aed; }
+
+        .cat-files { background: var(--accent); color: var(--white); }
+        .cat-files-light { background: var(--accent-light); color: #b45309; }
+
+        .color-websites { background: var(--primary); }
+        .color-youtube { background: #dc2626; }
+        .color-pdf { background: #ea580c; }
+        .color-platforms { background: var(--secondary); }
+        .color-tools { background: #7c3aed; }
+        .color-files { background: var(--accent); }
+
+        /* ====== Toast إشعار ====== */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+        }
+
+        .toast {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            box-shadow: var(--shadow-xl);
+            animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(20px); }
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 768px) {
+            .header { padding: 0 1rem; }
+            .header-inner { height: 60px; }
+            .logo-text { font-size: 1.3rem; }
+            .btn-admin span { display: none; }
+            .btn-admin { padding: 0.55rem 0.75rem; }
+
+            .hero { padding: 2.5rem 1.5rem 2rem; }
+            .hero h1 { font-size: 1.75rem; }
+            .hero p { font-size: 1rem; text-align: center; }
+
+            .categories-section { padding: 1rem 1.5rem 0; }
+            .stats-bar { gap: 1rem; padding: 1rem 1.5rem; }
+            .stat-item { font-size: 0.85rem; }
+            .stat-number { font-size: 1.2rem; }
+
+            .main-content { padding: 1.5rem; }
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .footer { padding: 2rem 1.5rem 1rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.45rem; }
+            .search-input { font-size: 0.95rem; padding: 0.85rem 2.5rem 0.85rem 0.85rem; }
+            .card-body { padding: 1.2rem; }
+        }
+
+        /* ====== Scrollbar مخصص ====== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-light); }
+    </style>
+</head>
+<body>
+
+    <!-- ====== الرأس ====== -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">📚</div>
+                <div class="logo-text"><span>دليلي</span></div>
+            </a>
+            <div class="header-actions">
+                <a href="admin.html" class="btn-admin">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <span>لوحة الإدارة</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ====== قسم البطل والبحث ====== -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h1>🌍 دليلك الشامل للموارد التعليمية الرقمية</h1>
+            <p>دليلي هو وجهتك الأولى لعالم الموارد التعليمية الرقمية، حيث يجمع لك بين أفضل المواقع التربوية، والملفات التعليمية، والقنوات المتخصصة، والأدوات التفاعلية، في مكان واحد ينظمه الذكاء البشري ويدعمه الذكاء الاصطناعي. سواء كنت طالباً تبحث عن شرح وافٍ، أو معلماً يسعى إلى مصدر موثوق، أو ولي أمر يريد توجيه أبنائه نحو المحتوى الهادف، فإن دليلي يصحَبُك بخطواتٍ مدروسة إلى كنوز المعرفة المنظمة والمُجربة. نؤمن بأن التعليم حقٌ للجميع، وأن الوصول إلى المعلومة الصحيحة يجب أن يكون سهلاً، سريعاً، وممتعاً. لهذا، نبني جسوراً بينك وبين أجمل ما أنتجته العقول في عالم التربية والتعليم.</p>
+            <div class="search-container">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="text" class="search-input" id="searchInput" placeholder="ابحث عن مورد تعليمي..." oninput="handleSearch()">
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== فلاتر الفئات ====== -->
+    <div class="categories-section">
+        <div class="categories-scroll" id="categoriesContainer">
+            <!-- يتم إنشاؤها ديناميكياً -->
+        </div>
+    </div>
+
+    <!-- ====== الإحصائيات ====== -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-number" id="totalCount">0</span>
+            <span>مورد تعليمي</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" id="categoryCount">0</span>
+            <span>فئة</span>
+        </div>
+    </div>
+
+    <!-- ====== المحتوى الرئيسي ====== -->
+    <main class="main-content">
+        <div class="cards-grid" id="cardsGrid">
+            <!-- يتم إنشاؤها ديناميكياً -->
+        </div>
+    </main>
+
+    <!-- ====== التذييل ====== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>📚 عن دليلي</h4>
+                    <p>دليلي منصة رائدة لنشر المعرفة الرقمية وتعزيز ثقافة الذكاء الاصطناعي في المجال التعليمي، تجمع لك أفضل الموارد التعليمية في مكان واحد.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>📂 الفئات المتاحة</h4>
+                    <a href="#" onclick="filterByCategory('websites'); return false;">مواقع تربوية</a>
+                    <a href="#" onclick="filterByCategory('youtube'); return false;">قنوات يوتيوب تعليمية</a>
+                    <a href="#" onclick="filterByCategory('platforms'); return false;">منصات تدريس</a>
+                    <a href="#" onclick="filterByCategory('tools'); return false;">أدوات تعليمية</a>
+                </div>
+                <div class="footer-section">
+                    <h4>🔗 روابط مفيدة</h4>
+                    <a href="admin.html">لوحة الإدارة</a>
+                    <a href="#">سياسة الخصوصية</a>
+                    <a href="#">تواصل معنا</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>دليلي منصة رائدة لنشر المعرفة الرقمية وتعزيز ثقافة الذكاء الاصطناعي</p>
+                <p>© 2026 جميع الحقوق محفوظة لـ مركز تطوير طواقم التربية والتعليم</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ====== حاوية الإشعارات ====== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // ====== البيانات الافتراضية (8 موارد تعليمية نموذجية) ======
+        const defaultResources = [
+            {
+                id: 1,
+                name: "منصة إدراك",
+                category: "منصات تدريس",
+                description: "منصة تعليمية سعودية تقدم مناهج رقمية تفاعلية لجميع المراحل الدراسية مع محتوى متنوع يشمل فيديوهات واختبارات ودروس تفاعلية.",
+                url: "https://www.edraak.org",
+                icon: "🎓",
+                colorClass: "platforms"
+            },
+            {
+                id: 2,
+                name: "قناة تعليمية - كورسات",
+                category: "قنوات يوتيوب",
+                description: "قناة يوتيوب تعليمية تقدم شروحات مبسطة في البرمجة والتصميم والتقنية باللغة العربية مع مشاريع تطبيقية حقيقية.",
+                url: "https://www.youtube.com",
+                icon: "🎬",
+                colorClass: "youtube"
+            },
+            {
+                id: 3,
+                name: "وزارة التعليم السعودية",
+                category: "مواقع تربوية",
+                description: "الموقع الرسمي لوزارة التعليم السعودية، يحتوي على الأخبار التعليمية والخدمات الإلكترونية والمناهج الدراسية ونتائج الطلاب.",
+                url: "https://www.moe.gov.sa",
+                icon: "🏛️",
+                colorClass: "websites"
+            },
+            {
+                id: 4,
+                name: "مكتبة الكتب التعليمية PDF",
+                category: "كتب PDF",
+                description: "مكتبة إلكترونية مجانية تضم آلاف الكتب والمراجع التعليمية بصيغة PDF في مختلف التخصصات والمراحل الدراسية.",
+                url: "https://www.pdfdrive.com",
+                icon: "📖",
+                colorClass: "pdf"
+            },
+            {
+                id: 5,
+                name: "أداة Quizizz للاختبارات",
+                category: "أدوات تعليمية",
+                description: "منصة تفاعلية لإنشاء وإجراء الاختبارات والاختبارات السريعة بطريقة ممتعة ومسابقات بين الطلاب مع نتائج فورية.",
+                url: "https://quizizz.com",
+                icon: "📝",
+                colorClass: "tools"
+            },
+            {
+                id: 6,
+                name: "مدرستي - المنصة الوطنية",
+                category: "منصات تدريس",
+                description: "المنصة التعليمية الوطنية التي توفر الدروس والمحتوى التعليمي للطلاب في جميع المراحل مع متابعة مستمرة من المعلمين.",
+                url: "https://my.moe.gov.sa",
+                icon: "🏫",
+                colorClass: "platforms"
+            },
+            {
+                id: 7,
+                name: "قناة دار الفرقان",
+                category: "قنوات يوتيوب",
+                description: "قناة تعليمية متخصصة في العلوم والرياضيات تقدم شروحات واضحة ومبسطة للطلاب في المرحلة الثانوية والجامعية.",
+                url: "https://www.youtube.com",
+                icon: "🔬",
+                colorClass: "youtube"
+            },
+            {
+                id: 8,
+                name: "Canva للتعليم",
+                category: "أدوات تعليمية",
+                description: "أداة تصميم مجانية مخصصة للمعلمين والطلاب لإنشاء عروض تقديمية وملصقات تعليمية ونشاطات فصلية إبداعية.",
+                url: "https://www.canva.com/education",
+                icon: "🎨",
+                colorClass: "tools"
+            }
+        ];
+
+        // ====== الفئات المتاحة ======
+        const categories = [
+            { name: "الكل", key: "all", icon: "📋" },
+            { name: "مواقع تربوية", key: "websites", icon: "🌐" },
+            { name: "قنوات يوتيوب", key: "youtube", icon: "🎬" },
+            { name: "كتب PDF", key: "pdf", icon: "📖" },
+            { name: "منصات تدريس", key: "platforms", icon: "🎓" },
+            { name: "أدوات تعليمية", key: "tools", icon: "🛠️" }
+        ];
+
+        // ====== المتغيرات العامة ======
+        let resources = [];
+        let activeCategory = "all";
+        let searchQuery = "";
+
+        // ====== تحميل البيانات ======
+        function loadResources() {
+            const stored = localStorage.getItem("edu_resources");
+            if (stored) {
+                resources = JSON.parse(stored);
+            } else {
+                resources = [...defaultResources];
+                localStorage.setItem("edu_resources", JSON.stringify(resources));
+            }
+        }
+
+        // ====== حفظ البيانات ======
+        function saveResources() {
+            localStorage.setItem("edu_resources", JSON.stringify(resources));
+        }
+
+        // ====== إنشاء أزرار الفئات ======
+        function renderCategories() {
+            const container = document.getElementById("categoriesContainer");
+            container.innerHTML = categories.map(cat => `
+                <button class="cat-btn ${activeCategory === cat.key ? 'active' : ''}" 
+                        onclick="filterByCategory('${cat.key}')">
+                    ${cat.icon} ${cat.name}
+                </button>
+            `).join("");
+        }
+
+        // ====== فلترة حسب الفئة ======
+        function filterByCategory(key) {
+            activeCategory = key;
+            renderCategories();
+            renderCards();
+        }
+
+        // ====== معالجة البحث ======
+        function handleSearch() {
+            searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
+            renderCards();
+        }
+
+        // ====== إنشاء البطاقات ======
+        function renderCards() {
+            const grid = document.getElementById("cardsGrid");
+            let filtered = resources;
+
+            // فلترة حسب الفئة
+            if (activeCategory !== "all") {
+                filtered = filtered.filter(r => r.colorClass === activeCategory);
+            }
+
+            // فلترة حسب البحث
+            if (searchQuery) {
+                filtered = filtered.filter(r =>
+                    r.name.toLowerCase().includes(searchQuery) ||
+                    r.category.toLowerCase().includes(searchQuery) ||
+                    r.description.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            // تحديث الإحصائيات
+            document.getElementById("totalCount").textContent = resources.length;
+            const uniqueCategories = [...new Set(resources.map(r => r.category))];
+            document.getElementById("categoryCount").textContent = uniqueCategories.length;
+
+            // عرض النتائج
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">🔍</div>
+                        <h3>لا توجد نتائج</h3>
+                        <p>جرب البحث بكلمات مختلفة أو اختر فئة أخرى</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(resource => `
+                <div class="resource-card" onclick="window.open('${resource.url}', '_blank')">
+                    <div class="card-color-bar color-${resource.colorClass}"></div>
+                    <div class="card-body">
+                        <div class="card-header">
+                            <div class="card-icon cat-${resource.colorClass}">
+                                ${resource.icon}
+                            </div>
+                            <div class="card-title-group">
+                                <h3 class="card-title">${resource.name}</h3>
+                                <span class="card-category-badge cat-${resource.colorClass}-light">
+                                    ${resource.category}
+                                </span>
+                            </div>
+                        </div>
+                        <p class="card-description">${resource.description}</p>
+                        <div class="card-footer">
+                            <a href="${resource.url}" target="_blank" rel="noopener noreferrer" class="card-link" onclick="event.stopPropagation()">
+                                زيارة الموقع
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                            </a>
+                            <span style="color: var(--text-light); font-size: 0.8rem;">↗ opens in new tab</span>
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        // ====== إشعار Toast ======
+        function showToast(message) {
+            const container = document.getElementById("toastContainer");
+            const toast = document.createElement("div");
+            toast.className = "toast";
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ====== الاستماع لتغييرات localStorage ======
+        window.addEventListener("storage", function(e) {
+            if (e.key === "edu_resources") {
+                loadResources();
+                renderCards();
+                showToast("تم تحديث الموارد تلقائياً ✅");
+            }
+        });
+
+        // ====== التهيئة ======
+        document.addEventListener("DOMContentLoaded", function() {
+            loadResources();
+            renderCategories();
+            renderCards();
+        });
+    </script>
+</body>
+</html>
