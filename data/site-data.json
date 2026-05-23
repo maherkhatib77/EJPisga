@@ -39,17 +39,6 @@
       "url": "https://www.canva.com/education",
       "icon": "fas fa-palette",
       "color": "#7c3aed"
-    },
-    {
-      "id": 9,
-      "name": "walla",
-      "category": "مواقع تربوية",
-      "categoryKey": "websites",
-      "url": "http://www.walla.co.il",
-      "description": "www\nwww",
-      "icon": "fas fa-book",
-      "colorClass": "websites",
-      "color": "#1a73a7"
     }
   ],
   "categories": [
